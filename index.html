@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>nandana — portfolio</title>
+<title>Nandana Rajan .R (@nxn0) — portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
@@ -42,6 +42,11 @@ p em{color:var(--fg)}
 .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4rem;align-items:center}
 .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
 .chips span{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);padding:.35rem .8rem;border-radius:99px;color:var(--dim)}
+.experience{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;margin-top:3rem;background:var(--line);border:1px solid var(--line)}
+.experience article{background:var(--bg);padding:1.5rem}
+.experience h3{font-size:1rem;margin-bottom:.3rem}
+.experience .meta{font-family:var(--mono);font-size:.7rem;color:var(--dim);margin-bottom:.6rem}
+.experience p{font-size:.9rem;margin:0}
 /* projects */
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:2.4rem}
 .card{background:var(--bg);padding:2rem;display:flex;flex-direction:column;transition:background .35s,color .35s}
@@ -67,7 +72,7 @@ footer{margin-top:4rem;font-family:var(--mono);font-size:.7rem;color:var(--dim);
 .dots a.on{background:var(--fg);transform:scale(1.35)}
 .rv{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s ease;transition-delay:var(--d,0s)}
 .rv.in{opacity:1;transform:none}
-@media(max-width:820px){.cols{grid-template-columns:1fr;gap:2.4rem}.grid{grid-template-columns:1fr}.sec{padding:84px 8vw}.card{padding:1.5rem}}
+@media(max-width:820px){.cols,.experience{grid-template-columns:1fr}.cols{gap:2.4rem}.grid{grid-template-columns:1fr}.sec{padding:84px 8vw}.card{padding:1.5rem}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -80,6 +85,7 @@ footer{margin-top:4rem;font-family:var(--mono);font-size:.7rem;color:var(--dim);
 
 <section class="sec hero" id="s1">
 <div class="wrap">
+<span class="idx rv">NANDANA RAJAN .R · @NXN0 · THIRUVANANTHAPURAM, INDIA</span>
 <h1 class="rv"><span>hi, i'm</span><span class="sr">nandana</span></h1>
 <pre class="art rv" id="name" aria-hidden="true" style="--d:.15s"></pre>
 <p class="lead rv" style="--d:.3s">i <em>C</em> better than java. low-level kid with hyperpop in her ears.<span class="cur">_</span></p>
@@ -93,12 +99,18 @@ footer{margin-top:4rem;font-family:var(--mono);font-size:.7rem;color:var(--dim);
 <h2 class="rv">about <em>me</em></h2>
 <div class="cols">
 <div>
-<p class="rv">just a 3rd-year CSE student at LBS Institute of Technology for Women, trying to figure out why my pointers are <em>segfaulting</em> at 3 AM. i live in the terminal.</p>
-<p class="rv" style="--d:.1s">i <em>C</em> better than java. low-level kid with hyperpop in her ears. i log, i build, i exist. i also interned at C-DIT on QA testing, selenium automation and security vulnerability assessment.</p>
-<p class="rv" style="--d:.2s">right now i'm messing with kernel compilation, a seat allotment app for my college, and making my desktop look pretty.</p>
-<div class="chips rv" style="--d:.3s"><span>C</span><span>python</span><span>java</span><span>basic web dev</span><span>arch (btw)</span><span>gentoo</span><span>nixos</span><span>fedora</span><span>LFS</span></div>
+<p class="rv">i'm pursuing a Diploma in Computer Science and Engineering at LBS Institute of Technology for Women in Thiruvananthapuram (2024–present), working across <em>low-level systems</em>, applied machine learning, and security testing.</p>
+<p class="rv" style="--d:.1s">i <em>C</em> better than java. terminal person, systems builder, and hyperpop listener. my QA and security internship at C-DIT included Selenium automation and an audit that documented 17 functional and security vulnerabilities.</p>
+<p class="rv" style="--d:.2s">from Linux From Scratch and bare-metal unikernels to private, on-device audio analysis: i like understanding what happens beneath the interface.</p>
+<div class="chips rv" style="--d:.3s"><span>C</span><span>Python</span><span>Java</span><span>HTML / CSS / JS</span><span>Django</span><span>Celery / Redis</span><span>ONNX Runtime</span><span>Wav2Vec2</span><span>Unikraft</span><span>Selenium POM</span><span>Linux shell</span><span>Arch / Gentoo / LFS</span><span>OWASP ZAP</span><span>Burp Suite</span><span>Nikto / Nmap</span><span>KVM / QEMU</span><span>GCC / Vim</span><span>ESP8266</span></div>
 </div>
 <pre class="art" id="art2" aria-hidden="true"></pre>
+</div>
+<div class="experience rv">
+<article><div class="meta">MAY–JUNE 2026 · C-DIT · THIRUVANANTHAPURAM</div><h3>QA testing &amp; security assessment intern</h3><p>Built a modular Python Selenium suite using Page Object Model patterns and audited an eTicket portal with Nikto, Burp Suite, OWASP ZAP, Metasploit, Nmap, and Whois. Documented 17 findings.</p></article>
+<article><div class="meta">MAY–JUNE 2025 · KELTRON KNOWLEDGE CENTRE</div><h3>Embedded systems &amp; IoT intern</h3><p>Worked on microcontroller output logic and hardware state management, integrating ESP8266 peripherals with remote control and telemetry through Blynk.</p></article>
+<article><div class="meta">FEBRUARY–MARCH 2025 · LBS CENTRE FOR SCIENCE AND TECHNOLOGY</div><h3>Machine learning intern · 30-hour intensive</h3><p>Built data preprocessing and feature engineering pipelines with Python, Pandas, and scikit-learn, then evaluated Logistic Regression, KNN, and SVM models.</p></article>
+<article><div class="meta">2024–PRESENT · LBSITW · THIRUVANANTHAPURAM</div><h3>Diploma in Computer Science &amp; Engineering</h3><p>Studies include operating systems, data structures in C, computer networks, and full-stack engineering. Earlier education: Govt. Girls HSS, Cotton Hill.</p></article>
 </div>
 </div>
 </section>
@@ -111,13 +123,16 @@ footer{margin-top:4rem;font-family:var(--mono);font-size:.7rem;color:var(--dim);
 <pre class="art" id="art3" aria-hidden="true"></pre>
 </div>
 <div class="grid">
-<article class="card rv feat"><h3>unikernel inference engine</h3><div class="tags">FEATURED · C · BITNET · BAREMETAL</div><p>a BitNet C++ inference engine running on a custom single-address-space unikernel, straight on bare metal.</p></article>
-<article class="card rv"><h3>vanishing point</h3><div class="tags">COLLEGE MINOR PROJECT · DJANGO</div><p>a library inventory management system i made for my college. planning to turn it into a standalone app.</p><a href="https://github.com/nxn0/vanishing-point" target="_blank" rel="noopener">view repo ↗</a></article>
-<article class="card rv" style="--d:.1s"><h3>seating algorithm</h3><div class="tags">C</div><p>seating patterns, fully implemented in C. no dynamic memory allocation yet.</p><a href="https://github.com/nxn0/seating-algorithm" target="_blank" rel="noopener">view repo ↗</a></article>
+<article class="card rv feat"><h3>Aegis: deepfake voice detector</h3><div class="tags">ANDROID · WAV2VEC2 · ONNX RUNTIME</div><p>a privacy-first Android app that checks post-call recordings for synthetic voices, processing audio locally as 16 kHz PCM with Wav2Vec2 and ONNX Runtime.</p><a href="https://github.com/nxn0/aegis" target="_blank" rel="noopener">view repo ↗</a> <a href="https://github.com/nxn0/aegis/releases/tag/1.0.0" target="_blank" rel="noopener">APK v1.0 ↗</a></article>
+<article class="card rv"><h3>Unikernel inference: Bare-Metal BitNet</h3><div class="tags">UNIKRAFT · 1-BIT LLM · X86_64</div><p>a systems research project integrating 1-bit BitNet inference with the Unikraft unikernel for bare-metal execution.</p><a href="https://github.com/nxn0" target="_blank" rel="noopener">github profile ↗</a></article>
+<article class="card rv" style="--d:.1s"><h3>Vanishing Point</h3><div class="tags">PYTHON · DJANGO · CELERY · REDIS</div><p>a library management platform with catalog and checkout workflows, payment verification, and background overdue-fine processing.</p><a href="https://github.com/nxn0/vanishing-point" target="_blank" rel="noopener">view repo ↗</a></article>
+<article class="card rv"><h3>Linux From Scratch</h3><div class="tags">LINUX · GCC · GLIBC · KERNEL</div><p>a bootable Linux system built from source, including a cross-compilation toolchain, custom kernel, bootloader, and init scripts.</p><a href="https://github.com/nxn0" target="_blank" rel="noopener">github profile ↗</a></article>
+<article class="card rv" style="--d:.1s"><h3>Seat allotment system</h3><div class="tags">C · DATA STRUCTURES · ALGORITHMS</div><p>a low-memory allocation engine that processes candidate merit, institutional preferences, and quota constraints.</p><a href="https://github.com/nxn0/seating-algorithm" target="_blank" rel="noopener">view repo ↗</a></article>
+<article class="card rv"><h3>Mozilla Firefox browser theme</h3><div class="tags">OPEN SOURCE · MOZILLA ADD-ONS</div><p>a custom high-contrast theme published on Mozilla Add-ons, designed for distraction-free browsing.</p><a href="https://github.com/nxn0" target="_blank" rel="noopener">github profile ↗</a></article>
 <article class="card rv"><h3>webos</h3><div class="tags">HTML · OS SIMULATION</div><p>a simulation of an operating system, running on the web.</p><a href="https://github.com/nxn0/webos" target="_blank" rel="noopener">view repo ↗</a></article>
-<article class="card rv" style="--d:.1s"><h3>game-recommender-3000</h3><div class="tags">PYTHON · LOGISTIC REGRESSION</div><p>a game recommendation system using logistic regression, because why not?</p><a href="https://github.com/nxn0/game-recommender-3000" target="_blank" rel="noopener">view repo ↗</a></article>
+<article class="card rv"><h3>game-recommender-3000</h3><div class="tags">PYTHON · LOGISTIC REGRESSION</div><p>a game recommendation system using logistic regression, because why not?</p><a href="https://github.com/nxn0/game-recommender-3000" target="_blank" rel="noopener">view repo ↗</a></article>
 <article class="card rv"><h3>assembly-lang</h3><div class="tags">ASSEMBLY</div><p>assembly language shenanigans.</p><a href="https://github.com/nxn0/assembly-lang" target="_blank" rel="noopener">view repo ↗</a></article>
-<article class="card rv" style="--d:.1s"><h3>c-shenanigans</h3><div class="tags">C · GROUP REPO</div><p>a group repo of C experiments and shared files.</p><a href="https://github.com/nxn0/c-shenanigans" target="_blank" rel="noopener">view repo ↗</a></article>
+<article class="card rv"><h3>c-shenanigans</h3><div class="tags">C · GROUP REPO</div><p>a group repo of C experiments and shared files.</p><a href="https://github.com/nxn0/c-shenanigans" target="_blank" rel="noopener">view repo ↗</a></article>
 </div>
 <p class="rv" style="margin-top:2rem">also: <em>pretty pastel pink</em>, a <a href="https://addons.mozilla.org/en-US/firefox/addon/pretty-pastel-pink" target="_blank" rel="noopener">firefox add-on ↗</a> that makes firefox less boring.</p>
 </div>
@@ -132,6 +147,7 @@ footer{margin-top:4rem;font-family:var(--mono);font-size:.7rem;color:var(--dim);
 <div class="links rv">
 <a href="https://linkedin.com/in/nxn0" target="_blank" rel="noopener"><span>linkedin</span><small>linkedin.com/in/nxn0 ↗</small></a>
 <a href="https://github.com/nxn0" target="_blank" rel="noopener"><span>github</span><small>github.com/nxn0 ↗</small></a>
+<a href="mailto:nandana.rajan.r@gmail.com"><span>email</span><small>nandana.rajan.r@gmail.com ↗</small></a>
 <div class="row"><span>discord</span><small>nxndona</small></div>
 </div>
 <footer>© 2026 nandana — i log. i build. i exist.</footer>
