@@ -1,0 +1,2634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nandana Rajan .R (nxn0) — Portfolio</title>
+  <!-- Google Fonts for Inter Light (300) and Playfair Display (Italic/Formal) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-pure: #000000;
+      --bg-s1: #000000;
+      --bg-s2: #060606;
+      --bg-s3: #030303;
+      --bg-s4: #000000;
+      --fg-primary: #ffffff;
+      --fg-secondary: #b8b8b8;
+      --fg-muted: #6e6e6e;
+      --fg-dim: #3a3a3a;
+      --border-hairline: rgba(255, 255, 255, 0.14);
+      --border-strong: rgba(255, 255, 255, 0.38);
+      --card-bg: rgba(10, 10, 10, 0.78);
+      --card-hover: rgba(22, 22, 22, 0.92);
+      --font-title: Arial, "Helvetica Neue", Helvetica, sans-serif;
+      --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-emphasis: "Playfair Display", Georgia, "Times New Roman", Times, serif;
+      --font-ascii: "JetBrains Mono", "Fira Code", "Courier New", Courier, monospace;
+      --scroll-mix: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-pure);
+      color: var(--fg-primary);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      selection-background-color: #ffffff;
+      selection-color: #000000;
+    }
+
+    ::selection {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    body {
+      background-color: var(--bg-pure);
+      color: var(--fg-primary);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Typography Rules Strictly Enforced */
+    h1, h2, h3, h4, .title-font {
+      font-family: var(--font-title);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--fg-primary);
+    }
+
+    p, .para-font, li, label, input, textarea {
+      font-family: var(--font-body);
+      font-weight: 300;
+    }
+
+    em, i, .fancy-italic {
+      font-family: var(--font-emphasis);
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      color: var(--fg-primary);
+    }
+
+    /* Seamless Background Mixing Canvas & Dither Overlay */
+    #bg-mixer-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      transition: opacity 0.6s ease;
+    }
+
+    .bg-gradient-mixer {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at var(--cursor-x, 50%) var(--cursor-y, 30%), rgba(255, 255, 255, 0.055) 0%, transparent 55%),
+        linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(12,12,12,0.5) 50%, rgba(0,0,0,0.85) 100%);
+      mix-blend-mode: screen;
+    }
+
+    .scanline-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 2px,
+        rgba(255, 255, 255, 0.012) 3px
+      );
+    }
+
+    /* Top Minimalist Navigation Bar */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 3rem;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-hairline);
+      transition: padding 0.3s ease, border-color 0.3s ease;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--fg-primary);
+    }
+
+    .brand-mark .brand-title {
+      font-family: var(--font-title);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark .brand-sub {
+      font-family: var(--font-emphasis);
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--fg-secondary);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 8px #ffffff;
+      animation: pulseDot 2.4s infinite ease-in-out;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.8); }
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--fg-secondary);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: lowercase;
+      transition: color 0.25s ease;
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a .nav-idx {
+      font-family: var(--font-ascii);
+      font-size: 0.72rem;
+      color: var(--fg-muted);
+      margin-right: 0.3rem;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--fg-primary);
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 1px;
+      background: var(--fg-primary);
+      transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-mono {
+      background: transparent;
+      color: var(--fg-primary);
+      border: 1px solid var(--border-strong);
+      padding: 0.45rem 0.95rem;
+      font-family: var(--font-ascii);
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .btn-mono:hover {
+      background: var(--fg-primary);
+      color: var(--bg-pure);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-mono.solid {
+      background: var(--fg-primary);
+      color: var(--bg-pure);
+      font-weight: 500;
+    }
+
+    .btn-mono.solid:hover {
+      background: transparent;
+      color: var(--fg-primary);
+    }
+
+    /* Right Side Vertical Scroll Telemetry Rail */
+    .scroll-rail {
+      position: fixed;
+      right: 1.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 90;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1.1rem;
+    }
+
+    .rail-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: var(--fg-muted);
+      font-family: var(--font-ascii);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      transition: all 0.3s ease;
+    }
+
+    .rail-item .rail-label {
+      opacity: 0;
+      transform: translateX(6px);
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .rail-item:hover .rail-label,
+    .rail-item.active .rail-label {
+      opacity: 1;
+      transform: translateX(0);
+      color: var(--fg-primary);
+    }
+
+    .rail-tick {
+      width: 14px;
+      height: 1px;
+      background: var(--fg-dim);
+      transition: all 0.3s ease;
+    }
+
+    .rail-item.active .rail-tick {
+      width: 28px;
+      height: 2px;
+      background: var(--fg-primary);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    }
+
+    /* Section Containers & Seamless Vertical Blending */
+    main {
+      position: relative;
+      z-index: 10;
+    }
+
+    .portfolio-section {
+      min-height: 100vh;
+      width: 100%;
+      padding: 7.5rem 3.5rem 5.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Seamless gradient blender between sections */
+    .section-blender {
+      height: 140px;
+      width: 100%;
+      position: relative;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.025) 50%, transparent 100%);
+    }
+
+    .blender-ascii-stream {
+      font-family: var(--font-ascii);
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.26);
+      letter-spacing: 0.22em;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .section-inner {
+      max-width: 1320px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Reveal Animations on Scroll */
+    .reveal-block {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-block.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Section Header Eyebrow */
+    .section-eyebrow {
+      font-family: var(--font-ascii);
+      font-size: 0.76rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--fg-secondary);
+      margin-bottom: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .section-eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--fg-primary);
+    }
+
+    /* Main Section Titles (Arial + Playfair Display Italic Emphasis) */
+    .section-title {
+      font-family: var(--font-title);
+      font-size: clamp(2.6rem, 5.2vw, 4.75rem);
+      font-weight: 700;
+      line-height: 1.06;
+      letter-spacing: -0.035em;
+      margin-bottom: 1.5rem;
+      color: var(--fg-primary);
+    }
+
+    .section-title em {
+      font-family: var(--font-emphasis);
+      font-style: italic;
+      font-weight: 400;
+      padding: 0 0.08em;
+    }
+
+    .lead-para {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: clamp(1.02rem, 1.25vw, 1.18rem);
+      color: var(--fg-secondary);
+      max-width: 64ch;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .lead-para strong {
+      color: var(--fg-primary);
+      font-weight: 400;
+    }
+
+    /* ASCII Art Showcase Containers (White ASCII Art on Pure Black Background) */
+    .ascii-stage {
+      background: #000000;
+      border: 1px solid var(--border-hairline);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .ascii-stage:hover {
+      border-color: var(--border-strong);
+      box-shadow: 0 0 36px rgba(255, 255, 255, 0.05);
+    }
+
+    .ascii-stage-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid var(--border-hairline);
+      background: #050505;
+      font-family: var(--font-ascii);
+      font-size: 0.72rem;
+      color: var(--fg-secondary);
+    }
+
+    .ascii-window-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .ascii-window-dots span {
+      width: 8px;
+      height: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      display: inline-block;
+    }
+
+    .ascii-tabs {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .ascii-tab-btn {
+      background: transparent;
+      border: 1px solid var(--border-hairline);
+      color: var(--fg-muted);
+      font-family: var(--font-ascii);
+      font-size: 0.68rem;
+      padding: 0.22rem 0.6rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .ascii-tab-btn:hover,
+    .ascii-tab-btn.active {
+      background: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
+    }
+
+    .ascii-art {
+      font-family: var(--font-ascii);
+      color: #ffffff;
+      background: #000000;
+      font-size: clamp(0.55rem, 0.82vw, 0.82rem);
+      line-height: 1.18;
+      letter-spacing: 0;
+      padding: 1.5rem;
+      overflow-x: auto;
+      white-space: pre;
+      user-select: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .ascii-art .dim {
+      color: #7a7a7a;
+    }
+
+    .ascii-art .bright {
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.45);
+    }
+
+    .ascii-stage-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.55rem 1rem;
+      border-top: 1px solid var(--border-hairline);
+      background: #030303;
+      font-family: var(--font-ascii);
+      font-size: 0.68rem;
+      color: var(--fg-muted);
+    }
+
+    /* =====================================================================
+       SECTION 1: HERO ("hi im nandana")
+       ===================================================================== */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .mono-pill {
+      font-family: var(--font-ascii);
+      font-size: 0.72rem;
+      padding: 0.3rem 0.75rem;
+      border: 1px solid var(--border-hairline);
+      color: var(--fg-secondary);
+      background: rgba(255, 255, 255, 0.02);
+      letter-spacing: 0.04em;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--border-hairline);
+    }
+
+    .metric-box .metric-val {
+      font-family: var(--font-title);
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--fg-primary);
+      display: block;
+    }
+
+    .metric-box .metric-lbl {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+    }
+
+    /* =====================================================================
+       SECTION 2: ABOUT ME ("about me")
+       ===================================================================== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 3.25rem;
+      align-items: start;
+      margin-top: 1.5rem;
+    }
+
+    .pillar-selector {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    .pillar-card {
+      background: #050505;
+      border: 1px solid var(--border-hairline);
+      padding: 1rem 1.15rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: left;
+    }
+
+    .pillar-card:hover,
+    .pillar-card.active {
+      background: #111111;
+      border-color: #ffffff;
+    }
+
+    .pillar-card h4 {
+      font-family: var(--font-title);
+      font-size: 0.92rem;
+      margin-bottom: 0.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pillar-card p {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.8rem;
+      color: var(--fg-secondary);
+      line-height: 1.5;
+    }
+
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .timeline-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-hairline);
+      padding: 1.35rem 1.5rem;
+      position: relative;
+      transition: border-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .timeline-card:hover {
+      border-color: var(--border-strong);
+      transform: translateX(4px);
+    }
+
+    .timeline-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .timeline-role {
+      font-family: var(--font-title);
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--fg-primary);
+    }
+
+    .timeline-date {
+      font-family: var(--font-ascii);
+      font-size: 0.72rem;
+      color: var(--fg-muted);
+      border: 1px solid var(--border-hairline);
+      padding: 0.15rem 0.55rem;
+    }
+
+    .timeline-org {
+      font-family: var(--font-emphasis);
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--fg-secondary);
+      margin-bottom: 0.65rem;
+    }
+
+    .timeline-desc {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.88rem;
+      color: var(--fg-secondary);
+      line-height: 1.65;
+    }
+
+    .skills-matrix {
+      margin-top: 1.5rem;
+      border: 1px solid var(--border-hairline);
+      background: #040404;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .skills-matrix-title {
+      font-family: var(--font-title);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.9rem;
+      color: var(--fg-secondary);
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-tag {
+      font-family: var(--font-ascii);
+      font-size: 0.73rem;
+      padding: 0.28rem 0.68rem;
+      border: 1px solid var(--border-hairline);
+      color: var(--fg-primary);
+      background: #000000;
+      transition: all 0.2s ease;
+    }
+
+    .skill-tag:hover {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    /* =====================================================================
+       SECTION 3: MY PROJECTS ("my projects")
+       ===================================================================== */
+    .projects-top-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: end;
+      margin-bottom: 2.25rem;
+    }
+
+    .project-controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .filter-btn {
+      background: #000000;
+      color: var(--fg-secondary);
+      border: 1px solid var(--border-hairline);
+      padding: 0.4rem 0.9rem;
+      font-family: var(--font-ascii);
+      font-size: 0.74rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
+    }
+
+    .project-search {
+      background: #000000;
+      border: 1px solid var(--border-hairline);
+      color: var(--fg-primary);
+      padding: 0.45rem 0.9rem;
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.85rem;
+      min-width: 240px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .project-search:focus {
+      border-color: #ffffff;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 1.65rem;
+    }
+
+    .project-card {
+      background: #030303;
+      border: 1px solid var(--border-hairline);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .project-card:hover {
+      border-color: #ffffff;
+      transform: translateY(-4px);
+      box-shadow: 0 14px 34px rgba(255, 255, 255, 0.05);
+    }
+
+    .project-ascii-banner {
+      background: #000000;
+      border-bottom: 1px solid var(--border-hairline);
+      padding: 0.9rem 1rem;
+      font-family: var(--font-ascii);
+      font-size: 0.62rem;
+      line-height: 1.18;
+      color: #ffffff;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .project-body {
+      padding: 1.4rem 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-cat {
+      font-family: var(--font-ascii);
+      font-size: 0.68rem;
+      color: var(--fg-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.4rem;
+    }
+
+    .project-title {
+      font-family: var(--font-title);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      color: var(--fg-primary);
+    }
+
+    .project-subtitle {
+      font-family: var(--font-emphasis);
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--fg-secondary);
+      margin-bottom: 0.9rem;
+    }
+
+    .project-desc {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.88rem;
+      color: var(--fg-secondary);
+      line-height: 1.68;
+      margin-bottom: 1.2rem;
+      flex: 1;
+    }
+
+    .project-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .project-stack span {
+      font-family: var(--font-ascii);
+      font-size: 0.68rem;
+      padding: 0.18rem 0.52rem;
+      border: 1px solid var(--border-hairline);
+      color: var(--fg-secondary);
+    }
+
+    .project-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-hairline);
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    /* =====================================================================
+       SECTION 4: CONTACT ME ("contact me")
+       ===================================================================== */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 3.25rem;
+      align-items: start;
+      margin-top: 1.5rem;
+    }
+
+    .social-directory {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      background: #040404;
+      border: 1px solid var(--border-hairline);
+      text-decoration: none;
+      color: var(--fg-primary);
+      transition: all 0.25s ease;
+    }
+
+    .social-row:hover {
+      background: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
+    }
+
+    .social-row:hover .social-handle,
+    .social-row:hover .social-arrow {
+      color: #000000;
+    }
+
+    .social-label {
+      font-family: var(--font-title);
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .social-handle {
+      font-family: var(--font-ascii);
+      font-size: 0.8rem;
+      color: var(--fg-secondary);
+    }
+
+    .contact-form-panel {
+      background: #040404;
+      border: 1px solid var(--border-hairline);
+      padding: 2rem;
+    }
+
+    .form-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: var(--font-ascii);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fg-secondary);
+      margin-bottom: 0.45rem;
+    }
+
+    .form-control {
+      width: 100%;
+      background: #000000;
+      border: 1px solid var(--border-hairline);
+      color: var(--fg-primary);
+      padding: 0.75rem 0.95rem;
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-control:focus {
+      border-color: #ffffff;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.08);
+    }
+
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .api-log-box {
+      margin-top: 1.35rem;
+      background: #000000;
+      border: 1px solid var(--border-hairline);
+      padding: 0.9rem 1rem;
+      font-family: var(--font-ascii);
+      font-size: 0.72rem;
+      color: var(--fg-secondary);
+      max-height: 170px;
+      overflow-y: auto;
+      line-height: 1.55;
+    }
+
+    /* Full-Stack Interactive CLI / API Console Drawer */
+    .terminal-drawer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 150;
+      background: rgba(0, 0, 0, 0.96);
+      border-top: 1px solid var(--border-strong);
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 48vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .terminal-drawer.open {
+      transform: translateY(0);
+    }
+
+    .terminal-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 1.5rem;
+      background: #0a0a0a;
+      border-bottom: 1px solid var(--border-hairline);
+      font-family: var(--font-ascii);
+      font-size: 0.75rem;
+    }
+
+    .terminal-output {
+      padding: 1rem 1.5rem;
+      font-family: var(--font-ascii);
+      font-size: 0.78rem;
+      color: #ffffff;
+      overflow-y: auto;
+      flex: 1;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+
+    .terminal-input-row {
+      display: flex;
+      align-items: center;
+      padding: 0.65rem 1.5rem;
+      border-top: 1px solid var(--border-hairline);
+      background: #000000;
+      font-family: var(--font-ascii);
+      font-size: 0.8rem;
+    }
+
+    .terminal-prompt {
+      color: var(--fg-secondary);
+      margin-right: 0.65rem;
+      white-space: nowrap;
+    }
+
+    .terminal-input {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-family: var(--font-ascii);
+      font-size: 0.8rem;
+      width: 100%;
+      outline: none;
+    }
+
+    /* Project Architecture Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-window {
+      background: #000000;
+      border: 1px solid #ffffff;
+      max-width: 780px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+    }
+
+    footer {
+      position: relative;
+      z-index: 10;
+      border-top: 1px solid var(--border-hairline);
+      padding: 2rem 3.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      background: #000000;
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.82rem;
+      color: var(--fg-muted);
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .about-grid,
+      .projects-top-layout,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+      .top-nav {
+        padding: 0.9rem 1.5rem;
+      }
+      .portfolio-section {
+        padding: 6.5rem 1.5rem 4rem;
+      }
+      .scroll-rail {
+        display: none;
+      }
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Seamless Background Mixing Canvas & Overlays -->
+  <canvas id="bg-mixer-canvas" aria-hidden="true"></canvas>
+  <div class="bg-gradient-mixer" aria-hidden="true"></div>
+  <div class="scanline-overlay" aria-hidden="true"></div>
+
+  <!-- Fixed Minimalist Top Navigation -->
+  <header class="top-nav">
+    <a href="#sec-hero" class="brand-mark">
+      <span class="status-dot"></span>
+      <span class="brand-title">NXN0</span>
+      <span class="brand-sub">// nandana rajan .r</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#sec-hero" class="active" data-sec="sec-hero"><span class="nav-idx">01.</span>hi im nandana</a></li>
+      <li><a href="#sec-about" data-sec="sec-about"><span class="nav-idx">02.</span>about me</a></li>
+      <li><a href="#sec-projects" data-sec="sec-projects"><span class="nav-idx">03.</span>my projects</a></li>
+      <li><a href="#sec-contact" data-sec="sec-contact"><span class="nav-idx">04.</span>contact me</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="btn-mono" id="toggle-terminal-btn" title="Open Full-Stack CLI & API Inspector">
+        <span>&gt;_ API / CLI</span>
+      </button>
+      <a href="https://github.com/nxn0" target="_blank" rel="noopener noreferrer" class="btn-mono">GITHUB ↗</a>
+    </div>
+  </header>
+
+  <!-- Right Side Vertical Scroll Telemetry Rail -->
+  <nav class="scroll-rail" aria-label="Section Scroll Navigation">
+    <a href="#sec-hero" class="rail-item active" data-rail="sec-hero">
+      <span class="rail-label">01 // HI IM NANDANA</span>
+      <span class="rail-tick"></span>
+    </a>
+    <a href="#sec-about" class="rail-item" data-rail="sec-about">
+      <span class="rail-label">02 // ABOUT ME</span>
+      <span class="rail-tick"></span>
+    </a>
+    <a href="#sec-projects" class="rail-item" data-rail="sec-projects">
+      <span class="rail-label">03 // MY PROJECTS</span>
+      <span class="rail-tick"></span>
+    </a>
+    <a href="#sec-contact" class="rail-item" data-rail="sec-contact">
+      <span class="rail-label">04 // CONTACT ME</span>
+      <span class="rail-tick"></span>
+    </a>
+  </nav>
+
+  <main>
+    <!-- ===================================================================
+         SECTION 01: "hi im nandana"
+         =================================================================== -->
+    <section id="sec-hero" class="portfolio-section" data-section-index="0">
+      <div class="section-inner hero-grid reveal-block in-view">
+        <div>
+          <div class="section-eyebrow">01 // SYSTEM INITIALIZED • THIRUVANANTHAPURAM, IN</div>
+          <h1 class="section-title">
+            hi im <em>nandana</em>
+          </h1>
+          <p class="lead-para">
+            I am <strong>Nandana Rajan .R</strong> (<em>@nxn0</em>)—a systems programmer, <em>cybersecurity</em> &amp; QA automation engineer, and full-stack developer. I build software from <em>bare-metal Linux kernels</em> and <em>unikernel AI inference engines</em> to privacy-preserving on-device machine learning and resilient web architectures.
+          </p>
+
+          <div class="hero-badges">
+            <span class="mono-pill">LINUX FROM SCRATCH / ARCH / GENTOO</span>
+            <span class="mono-pill">C &amp; PYTHON SYSTEMS</span>
+            <span class="mono-pill">ON-DEVICE AI (WAV2VEC2 / BITNET)</span>
+            <span class="mono-pill">SECURITY &amp; SELENIUM QA</span>
+          </div>
+
+          <div class="hero-cta-row">
+            <a href="#sec-projects" class="btn-mono solid">EXPLORE MY PROJECTS ↓</a>
+            <a href="#sec-contact" class="btn-mono">INITIATE CONTACT →</a>
+            <a href="https://www.linkedin.com/in/nxn0" target="_blank" rel="noopener noreferrer" class="btn-mono">LINKEDIN ↗</a>
+          </div>
+
+          <div class="hero-metrics">
+            <div class="metric-box">
+              <span class="metric-val">6+</span>
+              <span class="metric-lbl">Core Systems &amp; Full-Stack Builds</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">17</span>
+              <span class="metric-lbl">Security &amp; QA Vulnerabilities Audited</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val">Ring-0</span>
+              <span class="metric-lbl">Bare-Metal Kernel &amp; Unikernel Focus</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contextual White ASCII Art #1: Identity & Kernel Terminal -->
+        <div class="ascii-stage">
+          <div class="ascii-stage-header">
+            <div class="ascii-window-dots"><span></span><span></span><span></span></div>
+            <span>tty1 — nandana@nxn0: ~/identity.ascii</span>
+            <div class="ascii-tabs">
+              <button class="ascii-tab-btn active" data-hero-ascii="crest">01:CREST</button>
+              <button class="ascii-tab-btn" data-hero-ascii="kernel">02:KERNEL</button>
+              <button class="ascii-tab-btn" data-hero-ascii="wave">03:WAVE</button>
+            </div>
+          </div>
+          <pre class="ascii-art" id="hero-ascii-display">
+   ╔══════════════════════════════════════════════════════════════════╗
+   ║  ███╗   ██╗██╗  ██╗███╗   ██╗ ██████╗     // NANDANA RAJAN .R    ║
+   ║  ████╗  ██║╚██╗██╔╝████╗  ██║██╔═████╗    // HANDLE: @nxn0       ║
+   ║  ██╔██╗ ██║ ╚███╔╝ ██╔██╗ ██║██║██╔██║    // ARCH • GENTOO • LFS ║
+   ║  ██║╚██╗██║ ██╔██╗ ██║╚██╗██║████╔╝██║    // C • PYTHON • DJANGO ║
+   ║  ██║ ╚████║██╔╝ ██╗██║ ╚████║╚██████╔╝    // SECURITY &amp; AI/ML    ║
+   ║  ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝     // LOC: 8.52°N 76.93°E ║
+   ╠══════════════════════════════════════════════════════════════════╣
+   ║                                                                  ║
+   ║          .---.          ┌─────────────────────────────────────┐  ║
+   ║         /     \         │ $ whoami                            │  ║
+   ║        | () () |        │ > nandana_rajan_r (helya / nxn0)    │  ║
+   ║         \  ^  /         │ $ uname -srm                        │  ║
+   ║          |||||          │ > Linux 6.x-lfs-nxn0 x86_64         │  ║
+   ║      .---'---'---.      │ $ cat /proc/focus                   │  ║
+   ║     /  [RING-0]   \     │ > [x] Bare-Metal Unikernels         │  ║
+   ║    |  .---------.  |    │ > [x] On-Device Deepfake Detection  │  ║
+   ║    |  | 0100111 |  |    │ > [x] Automated Security &amp; QA       │  ║
+   ║    |  '---------'  |    │ > [x] Full-Stack Web Engineering    │  ║
+   ║     \_____________/     └─────────────────────────────────────┘  ║
+   ║                                                                  ║
+   ║  [SYS_CLOCK: ACTIVE] ─── [MEM: OPTIMAL] ─── [SCROLL TO MIX ↓↓↓]  ║
+   ╚══════════════════════════════════════════════════════════════════╝</pre>
+          <div class="ascii-stage-footer">
+            <span id="hero-ascii-status">MODE: IDENTITY CREST // INTERACTIVE</span>
+            <span>ENCODING: UTF-8 MONOCHROME</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seamless Transition Blender 01 -> 02 -->
+    <div class="section-blender" aria-hidden="true">
+      <div class="blender-ascii-stream">
+        ░▒▓█ TRANSITION // 01:HI_IM_NANDANA ──────► 02:ABOUT_ME // KERNEL_SPACE ◄──────► USER_SPACE █▓▒░
+      </div>
+    </div>
+
+    <!-- ===================================================================
+         SECTION 02: "about me"
+         =================================================================== -->
+    <section id="sec-about" class="portfolio-section" data-section-index="1">
+      <div class="section-inner reveal-block">
+        <div class="section-eyebrow">02 // BIOGRAPHY, EXPERIENCE &amp; TECHNICAL ARSENAL</div>
+        <h2 class="section-title">
+          about <em>me</em>
+        </h2>
+        <p class="lead-para">
+          Pursuing my Diploma in Computer Science and Engineering at <strong>LBS Institute of Technology for Women (LBSITW)</strong>, Thiruvananthapuram (2024–Present), I thrive at the intersection of <em>low-level systems</em>, <em>offensive/defensive security testing</em>, and <em>applied machine learning</em>. Click any pillar below to inspect its ASCII architecture.
+        </p>
+
+        <div class="about-grid">
+          <!-- Left Column: Contextual White ASCII Art #2 (Interactive Pillars) -->
+          <div>
+            <div class="ascii-stage">
+              <div class="ascii-stage-header">
+                <div class="ascii-window-dots"><span></span><span></span><span></span></div>
+                <span>/proc/nandana/architecture_map.ascii</span>
+                <span id="about-ascii-tag">[SYSTEMS &amp; LINUX]</span>
+              </div>
+              <pre class="ascii-art" id="about-ascii-display">
+   ┌─────────────────────────────────────────────────────────────────┐
+   │              NANDANA'S MULTI-LAYERED SYSTEM STACK               │
+   ├─────────────────────────────────────────────────────────────────┤
+   │                                                                 │
+   │      .---.        ┌──────────────────────────────────────────┐  │
+   │     /     \       │ LAYER 04 // FULL-STACK &amp; INTERFACE       │  │
+   │    (  o o  )      │ Django • HTML/CSS/JS • Celery • Redis    │  │
+   │     \  ▽  /       ├──────────────────────────────────────────┤  │
+   │     /`---'\       │ LAYER 03 // AI &amp; ON-DEVICE INFERENCE     │  │
+   │    / /   \ \      │ Wav2Vec2 • BitNet 1-Bit • ONNX • Pandas  │  │
+   │   | |     | |     ├──────────────────────────────────────────┤  │
+   │   | | LFS | |     │ LAYER 02 // SECURITY &amp; QA AUTOMATION     │  │
+   │    \ \___/ /      │ Selenium POM • OWASP ZAP • Burp • Nmap   │  │
+   │     `._|_.'       ├──────────────────────────────────────────┤  │
+   │     __/ \__       │ LAYER 01 // BARE METAL &amp; KERNEL          │  │
+   │    (_______)      │ Linux From Scratch • Gentoo • Arch • C   │  │
+   │                   └──────────────────────────────────────────┘  │
+   │  "Compile from source. Audit every boundary. Ship clean code."  │
+   └─────────────────────────────────────────────────────────────────┘</pre>
+              <div class="ascii-stage-footer">
+                <span>SELECT A PILLAR BELOW TO MORPH ASCII DIAGRAM</span>
+                <span>LBSITW • TRIVANDRUM</span>
+              </div>
+            </div>
+
+            <div class="pillar-selector">
+              <button class="pillar-card active" data-pillar="systems">
+                <h4><span>01. Linux &amp; Systems</span><span>[↗]</span></h4>
+                <p>Linux From Scratch (LFS), Gentoo, Arch Linux, Unikraft unikernels, GCC toolchains, and bare-metal C.</p>
+              </button>
+              <button class="pillar-card" data-pillar="security">
+                <h4><span>02. Security &amp; QA</span><span>[↗]</span></h4>
+                <p>Selenium POM automation in Python, OWASP ZAP, Burp Suite, Nikto, Nmap, and Metasploit auditing.</p>
+              </button>
+              <button class="pillar-card" data-pillar="aiml">
+                <h4><span>03. Applied AI / ML</span><span>[↗]</span></h4>
+                <p>On-device Wav2Vec2 ONNX speech forensics, 1-bit BitNet LLM inference, and scikit-learn pipelines.</p>
+              </button>
+              <button class="pillar-card" data-pillar="iot">
+                <h4><span>04. Embedded &amp; Web</span><span>[↗]</span></h4>
+                <p>ESP8266 hardware state control, Blynk IoT telemetry, and Django + Celery + Redis web systems.</p>
+              </button>
+            </div>
+
+            <div class="skills-matrix">
+              <div class="skills-matrix-title">Core Technical Arsenal // Verified Stack</div>
+              <div class="skill-tags">
+                <span class="skill-tag">C</span>
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">HTML5 / CSS3 / JS</span>
+                <span class="skill-tag">Linux Shell</span>
+                <span class="skill-tag">Django</span>
+                <span class="skill-tag">Celery &amp; Redis</span>
+                <span class="skill-tag">ONNX Runtime</span>
+                <span class="skill-tag">Wav2Vec2</span>
+                <span class="skill-tag">Unikraft</span>
+                <span class="skill-tag">Selenium POM</span>
+                <span class="skill-tag">Arch / Gentoo / LFS</span>
+                <span class="skill-tag">OWASP ZAP</span>
+                <span class="skill-tag">Burp Suite</span>
+                <span class="skill-tag">Nikto &amp; Nmap</span>
+                <span class="skill-tag">KVM / QEMU</span>
+                <span class="skill-tag">GCC &amp; Vim</span>
+                <span class="skill-tag">ESP8266 IoT</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Experience & Education Timeline -->
+          <div class="timeline-list">
+            <div class="timeline-card">
+              <div class="timeline-meta">
+                <span class="timeline-role">QA Testing &amp; Security Vulnerability Assessment Intern</span>
+                <span class="timeline-date">MAY – JUNE 2026</span>
+              </div>
+              <div class="timeline-org">Centre for Development of Imaging Technology (C-DIT), Thiruvananthapuram</div>
+              <p class="timeline-desc">
+                Architected a modular Python Selenium test suite for the eTicket portal utilizing <em>Page Object Model (POM)</em> patterns (<code>BaseDriver</code>/<code>BaseForm</code>, <code>ScreenshotOnFailureMixin</code>, Select2 JS injection, and session-aware re-authentication). Conducted security audits using Nikto, Burp Suite, OWASP ZAP, Metasploit, Nmap, and Whois—identifying and documenting <strong>17 functional and security vulnerabilities</strong>.
+              </p>
+            </div>
+
+            <div class="timeline-card">
+              <div class="timeline-meta">
+                <span class="timeline-role">Embedded Systems &amp; IoT Intern</span>
+                <span class="timeline-date">MAY – JUNE 2025</span>
+              </div>
+              <div class="timeline-org">Keltron Knowledge Centre (KSG), Thiruvananthapuram</div>
+              <p class="timeline-desc">
+                Designed digital output logic and hardware state management on embedded microcontrollers. Integrated <em>ESP8266</em> modules with electronic peripherals and engineered remote hardware triggering workflows through the Blynk IoT platform.
+              </p>
+            </div>
+
+            <div class="timeline-card">
+              <div class="timeline-meta">
+                <span class="timeline-role">Machine Learning Intern (30-Hour Intensive)</span>
+                <span class="timeline-date">FEB – MARCH 2025</span>
+              </div>
+              <div class="timeline-org">LBS Centre for Science and Technology (at LBSITW)</div>
+              <p class="timeline-desc">
+                Built data preprocessing and feature engineering pipelines using Python, Pandas, and <em>scikit-learn</em>. Implemented and evaluated classification models including Logistic Regression, K-Nearest Neighbors (KNN), and Support Vector Machines (SVM).
+              </p>
+            </div>
+
+            <div class="timeline-card">
+              <div class="timeline-meta">
+                <span class="timeline-role">Diploma in Computer Science &amp; Engineering</span>
+                <span class="timeline-date">2024 – PRESENT</span>
+              </div>
+              <div class="timeline-org">LBS Institute of Technology for Women (LBSITW), Thiruvananthapuram</div>
+              <p class="timeline-desc">
+                Focused on operating systems internals, data structures in C, full-stack web engineering, computer networks, and bare-metal machine learning deployment. Completed Higher Secondary &amp; Secondary Education at <em>Govt. Girls HSS, Cotton Hill</em>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seamless Transition Blender 02 -> 03 -->
+    <div class="section-blender" aria-hidden="true">
+      <div class="blender-ascii-stream">
+        ░▒▓█ TRANSITION // 02:ABOUT_ME ──────► 03:MY_PROJECTS // SOURCE_CODE ◄──────► DEPLOYED_ARTIFACTS █▓▒░
+      </div>
+    </div>
+
+    <!-- ===================================================================
+         SECTION 03: "my projects"
+         =================================================================== -->
+    <section id="sec-projects" class="portfolio-section" data-section-index="2">
+      <div class="section-inner reveal-block">
+        <div class="projects-top-layout">
+          <div>
+            <div class="section-eyebrow">03 // SELECTED WORKS &amp; SYSTEM ARCHITECTURES</div>
+            <h2 class="section-title">
+              my <em>projects</em>
+            </h2>
+            <p class="lead-para" style="margin-bottom: 0;">
+              Every build is grounded in <em>first-principles engineering</em>—spanning on-device neural audio forensics, bare-metal unikernel LLM inference, asynchronous Django web systems, and custom Linux kernels compiled from source.
+            </p>
+          </div>
+
+          <!-- Contextual White ASCII Art #3: Section Master Pipeline Blueprint -->
+          <div class="ascii-stage">
+            <div class="ascii-stage-header">
+              <div class="ascii-window-dots"><span></span><span></span><span></span></div>
+              <span>pipeline://nxn0/projects_topology.ascii</span>
+              <span>6 REPOSITORIES</span>
+            </div>
+            <pre class="ascii-art" style="font-size: 0.64rem; padding: 1rem 1.2rem;">
+  ┌──────────────┐     ┌────────────────────┐     ┌─────────────────────┐
+  │ [RAW SOURCE] │     │ [ENGINE / RUNTIME] │     │ [VERIFIED ARTIFACT] │
+  │  • C / GCC   │────►│  • Unikraft Ring-0 │────►│  • Bare-Metal LLM   │
+  │  • Python    │────►│  • ONNX / Wav2Vec2 │────►│  • Aegis APK v1.0.0 │
+  │  • Kernel    │────►│  • Django + Celery │────►│  • Vanishing Point  │
+  └──────────────┘     └────────────────────┘     └─────────────────────┘</pre>
+          </div>
+        </div>
+
+        <!-- Interactive Filter & Search Controls -->
+        <div class="project-controls">
+          <div class="filter-group" role="tablist" aria-label="Filter projects by domain">
+            <button class="filter-btn active" data-filter="all">ALL WORKS (6)</button>
+            <button class="filter-btn" data-filter="ai">AI &amp; ON-DEVICE ML</button>
+            <button class="filter-btn" data-filter="systems">SYSTEMS &amp; KERNEL</button>
+            <button class="filter-btn" data-filter="fullstack">FULL-STACK &amp; C</button>
+          </div>
+          <input
+            type="search"
+            id="project-search-input"
+            class="project-search"
+            placeholder="Search stack (e.g. ONNX, Django, C, Linux)..."
+            aria-label="Search projects"
+          />
+        </div>
+
+        <!-- Projects Grid (Each with contextual White ASCII Art) -->
+        <div class="projects-grid" id="projects-grid">
+
+          <!-- Project 1: Aegis -->
+          <article class="project-card" data-category="ai" data-keywords="aegis android ai deepfake voice wav2vec2 onnx runtime audio security">
+            <pre class="project-ascii-banner">
+ ┌────────────────────────────────────────────────────────────┐
+ │ [CALL AUDIO] ──► ~^v^~ 16kHz PCM ──► [WAV2VEC2 + ONNX]     │
+ │   7-Layer CNN + 12-Layer Transformer ──► [SHIELD: REAL/AI] │
+ └────────────────────────────────────────────────────────────┘</pre>
+            <div class="project-body">
+              <div class="project-cat">01 // ON-DEVICE AI &amp; AUDIO FORENSICS</div>
+              <h3 class="project-title">Aegis: Deepfake Voice Detector</h3>
+              <div class="project-subtitle">Privacy-preserving post-call synthetic speech detection on Android</div>
+              <p class="project-desc">
+                Solo-engineered an Android application that analyzes post-call recordings locally to detect synthetic or cloned voices without uploading audio to external servers. Decodes recordings via <code>MediaExtractor</code>/<code>MediaCodec</code> to 16 kHz mono PCM and executes a fine-tuned <em>Wav2Vec2</em> model locally via <strong>ONNX Runtime</strong> across overlapping 1-second windows.
+              </p>
+              <div class="project-stack">
+                <span>Android</span>
+                <span>Wav2Vec2</span>
+                <span>ONNX Runtime</span>
+                <span>16kHz PCM</span>
+                <span>Privacy-First</span>
+              </div>
+              <div class="project-links">
+                <button class="btn-mono" onclick="openProjectModal('aegis')">INSPECT ASCII SPEC</button>
+                <div style="display:flex; gap:0.4rem;">
+                  <a href="https://github.com/nxn0/aegis" target="_blank" rel="noopener noreferrer" class="btn-mono">REPO ↗</a>
+                  <a href="https://github.com/nxn0/aegis/releases/tag/1.0.0" target="_blank" rel="noopener noreferrer" class="btn-mono solid">APK v1.0 ↗</a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2: Unikernel Inference: Bare-Metal BitNet -->
+          <article class="project-card" data-category="systems ai" data-keywords="unikernel inference bare metal bitnet unikraft llm quantization x86_64 os">
+            <pre class="project-ascii-banner">
+ ┌────────────────────────────────────────────────────────────┐
+ │  [ 1-BIT WEIGHTS: -1 | 0 | +1 ]  (58x Model Compression)   │
+ │  ════════════════════════════════════════════════════════  │
+ │  [ UNIKRAFT UNIKERNEL // BARE-METAL x86_64 // -20% LAT ]   │
+ └────────────────────────────────────────────────────────────┘</pre>
+            <div class="project-body">
+              <div class="project-cat">02 // UNIKERNEL SYSTEMS &amp; EDGE AI</div>
+              <h3 class="project-title">Unikernel Inference: Bare-Metal BitNet</h3>
+              <div class="project-subtitle">1-bit quantized neural networks running on a Unikraft unikernel</div>
+              <p class="project-desc">
+                Eliminated traditional Linux OS kernel scheduling and context-switch overhead by integrating a <em>1-bit quantized BitNet</em> inference runtime directly with the <strong>Unikraft</strong> modular unikernel on bare-metal <code>x86_64</code> hardware—targeting a 20% reduction in per-inference latency and minimal memory footprint.
+              </p>
+              <div class="project-stack">
+                <span>Unikraft</span>
+                <span>BitNet (1-Bit LLM)</span>
+                <span>Bare-Metal x86_64</span>
+                <span>C / Systems</span>
+                <span>KVM / QEMU</span>
+              </div>
+              <div class="project-links">
+                <button class="btn-mono" onclick="openProjectModal('bitnet')">INSPECT ASCII SPEC</button>
+                <a href="https://github.com/nxn0" target="_blank" rel="noopener noreferrer" class="btn-mono">GITHUB ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3: Vanishing Point: Library Management System -->
+          <article class="project-card" data-category="fullstack" data-keywords="vanishing point library management system python django celery redis fullstack">
+            <pre class="project-ascii-banner">
+ ┌────────────────────────────────────────────────────────────┐
+ │ [DJANGO WEB] ◄══► [POSTGRES/ORM] ──► [REDIS MESSAGE QUEUE] │
+ │      │                                        │            │
+ │      ▼                                        ▼            │
+ │ [AUTH &amp; CATALOG]                    [CELERY FINE WORKER]   │
+ └────────────────────────────────────────────────────────────┘</pre>
+            <div class="project-body">
+              <div class="project-cat">03 // FULL-STACK WEB ARCHITECTURE</div>
+              <h3 class="project-title">Vanishing Point: Library System</h3>
+              <div class="project-subtitle">Asynchronous inventory, checkout &amp; automated fine engine</div>
+              <p class="project-desc">
+                Designed and built a full-stack <strong>Django</strong> library management platform featuring role-based authentication, digital catalog tracking, checkout workflows, payment verification, and background task orchestration powered by <em>Celery</em> and <em>Redis</em> for automated overdue fine computation.
+              </p>
+              <div class="project-stack">
+                <span>Python</span>
+                <span>Django</span>
+                <span>Celery</span>
+                <span>Redis</span>
+                <span>Full-Stack Web</span>
+              </div>
+              <div class="project-links">
+                <button class="btn-mono" onclick="openProjectModal('vanishing')">INSPECT ASCII SPEC</button>
+                <a href="https://github.com/nxn0" target="_blank" rel="noopener noreferrer" class="btn-mono">GITHUB ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 4: Linux From Scratch (LFS) -->
+          <article class="project-card" data-category="systems" data-keywords="linux from scratch lfs kernel gcc glibc bootloader init bare metal">
+            <pre class="project-ascii-banner">
+ ┌────────────────────────────────────────────────────────────┐
+ │ [GRUB2] ──► [vmlinuz-lfs-custom] ──► [GCC + glibc + init]  │
+ │ [0.000000] Linux version custom-lfs (nandana@nxn0) #1 SMP  │
+ └────────────────────────────────────────────────────────────┘</pre>
+            <div class="project-body">
+              <div class="project-cat">04 // OPERATING SYSTEMS &amp; KERNEL</div>
+              <h3 class="project-title">Linux From Scratch (LFS)</h3>
+              <div class="project-subtitle">Custom Linux operating system compiled entirely from source</div>
+              <p class="project-desc">
+                Constructed a complete, bootable Linux operating system from raw source tarballs on bare metal. Configured the cross-compilation <strong>GCC toolchain</strong>, <code>glibc</code>, custom kernel modules, boot loader, init scripts, and user-space permission boundaries.
+              </p>
+              <div class="project-stack">
+                <span>Linux Kernel</span>
+                <span>GCC Toolchain</span>
+                <span>Bare Metal</span>
+                <span>Init Systems</span>
+                <span>Shell Scripting</span>
+              </div>
+              <div class="project-links">
+                <button class="btn-mono" onclick="openProjectModal('lfs')">INSPECT ASCII SPEC</button>
+                <a href="https://github.com/nxn0" target="_blank" rel="noopener noreferrer" class="btn-mono">GITHUB ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 5: Seat Allotment System -->
+          <article class="project-card" data-category="fullstack systems" data-keywords="seat allotment system c backend algorithm merit allocation">
+            <pre class="project-ascii-banner">
+ ┌────────────────────────────────────────────────────────────┐
+ │ struct Applicant *head ──► [qsort_merit()] ──► [ALLOCATE]  │
+ │   ├── Pref[0]: CSE  ──► [SEAT_LOCKED: TRUE]                │
+ └────────────────────────────────────────────────────────────┘</pre>
+            <div class="project-body">
+              <div class="project-cat">05 // ALGORITHMIC BACKEND ENGINE</div>
+              <h3 class="project-title">Seat Allotment System in C</h3>
+              <div class="project-subtitle">Deterministic merit &amp; preference allocation engine</div>
+              <p class="project-desc">
+                Engineered a fast, low-memory backend allocation engine in <strong>C</strong> that processes candidate rankings, multi-choice institutional preferences, and quota constraints to compute deterministic seat allotments.
+              </p>
+              <div class="project-stack">
+                <span>C Language</span>
+                <span>Data Structures</span>
+                <span>Pointers &amp; Memory</span>
+                <span>GCC</span>
+              </div>
+              <div class="project-links">
+                <button class="btn-mono" onclick="openProjectModal('seat')">INSPECT ASCII SPEC</button>
+                <a href="https://github.com/nxn0" target="_blank" rel="noopener noreferrer" class="btn-mono">GITHUB ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 6: Firefox Browser Theme -->
+          <article class="project-card" data-category="fullstack" data-keywords="firefox browser theme open source mozilla addons ui ux design">
+            <pre class="project-ascii-banner">
+ ┌────────────────────────────────────────────────────────────┐
+ │ ╔══ [● ● ●] ══ [ + New Tab : nxn0//theme ] ══════════════╗ │
+ │ ║  ◄  ►  ↻  │ https://github.com/nxn0               [☆] ║ │
+ └────────────────────────────────────────────────────────────┘</pre>
+            <div class="project-body">
+              <div class="project-cat">06 // OPEN-SOURCE UI &amp; BROWSER CUSTOMIZATION</div>
+              <h3 class="project-title">Mozilla Firefox Browser Theme</h3>
+              <div class="project-subtitle">Minimalist high-contrast theme published on Mozilla Add-ons</div>
+              <p class="project-desc">
+                Designed, packaged, and published a custom open-source browser theme to the official <em>Mozilla Add-ons</em> store—applying stark typographic contrast and distraction-free monochrome ergonomics to everyday browsing.
+              </p>
+              <div class="project-stack">
+                <span>Mozilla Add-ons</span>
+                <span>Manifest JSON</span>
+                <span>UI/UX Aesthetics</span>
+                <span>Open Source</span>
+              </div>
+              <div class="project-links">
+                <button class="btn-mono" onclick="openProjectModal('firefox')">INSPECT ASCII SPEC</button>
+                <a href="https://github.com/nxn0" target="_blank" rel="noopener noreferrer" class="btn-mono">GITHUB ↗</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Seamless Transition Blender 03 -> 04 -->
+    <div class="section-blender" aria-hidden="true">
+      <div class="blender-ascii-stream">
+        ░▒▓█ TRANSITION // 03:MY_PROJECTS ──────► 04:CONTACT_ME // SYN ───► SYN/ACK ───► ACK_ESTABLISHED █▓▒░
+      </div>
+    </div>
+
+    <!-- ===================================================================
+         SECTION 04: "contact me"
+         =================================================================== -->
+    <section id="sec-contact" class="portfolio-section" data-section-index="3">
+      <div class="section-inner reveal-block">
+        <div class="section-eyebrow">04 // DIRECT TRANSMISSION &amp; FULL-STACK DISPATCH</div>
+        <h2 class="section-title">
+          contact <em>me</em>
+        </h2>
+        <p class="lead-para">
+          Whether you are looking to collaborate on <em>systems programming</em>, <em>on-device AI</em>, <em>security auditing</em>, or full-stack web engineering, my channel is open. Dispatch a payload below or connect directly on GitHub and LinkedIn.
+        </p>
+
+        <div class="contact-grid">
+          <!-- Left Column: Contextual White ASCII Art #4 (Live Network Handshake) & Direct Links -->
+          <div>
+            <div class="ascii-stage">
+              <div class="ascii-stage-header">
+                <div class="ascii-window-dots"><span></span><span></span><span></span></div>
+                <span>netstat://nxn0:443 — handshake_telemetry.ascii</span>
+                <span id="packet-status-badge">PORT 443: LISTENING</span>
+              </div>
+              <pre class="ascii-art" id="contact-ascii-display">
+   ┌─────────────────────────────────────────────────────────────────┐
+   │             ENCRYPTED DISPATCH CHANNEL // NXN0 NODE             │
+   ├─────────────────────────────────────────────────────────────────┤
+   │                                                                 │
+   │     [VISITOR_CLIENT]                     [NANDANA // @nxn0]     │
+   │          ┌────┐                                ┌────┐           │
+   │          │ 💻 │ ═══════ SYN (seq=0x01) ══════► │ 🛰️ │           │
+   │          │    │ ◄══ SYN+ACK (ack=0x02) ═══════ │    │           │
+   │          │    │ ═════ ACK + JSON PAYLOAD ════► │    │           │
+   │          └────┘                                └────┘           │
+   │                                                                 │
+   │   ┌─────────────────────────────────────────────────────────┐   │
+   │   │ ENDPOINT : POST /api/v1/contact                         │   │
+   │   │ LOCATION : Thiruvananthapuram, Kerala, IN               │   │
+   │   │ GITHUB   : github.com/nxn0                              │   │
+   │   │ LINKEDIN : linkedin.com/in/nxn0                         │   │
+   │   │ EMAIL    : nandana.rajan.r@gmail.com                    │   │
+   │   └─────────────────────────────────────────────────────────┘   │
+   └─────────────────────────────────────────────────────────────────┘</pre>
+              <div class="ascii-stage-footer">
+                <span id="contact-telemetry-text">PACKET LOSS: 0.0% // TLS 1.3 MONOCHROME</span>
+                <button class="ascii-tab-btn" onclick="downloadNodeServer()">⬇ EXPORT NODE.JS SERVER</button>
+              </div>
+            </div>
+
+            <div class="social-directory">
+              <a href="https://github.com/nxn0" target="_blank" rel="noopener noreferrer" class="social-row">
+                <div>
+                  <div class="social-label">GitHub Profile</div>
+                  <div class="social-handle">github.com/nxn0</div>
+                </div>
+                <span class="social-arrow">↗</span>
+              </a>
+
+              <a href="https://www.linkedin.com/in/nxn0" target="_blank" rel="noopener noreferrer" class="social-row">
+                <div>
+                  <div class="social-label">LinkedIn Network</div>
+                  <div class="social-handle">linkedin.com/in/nxn0</div>
+                </div>
+                <span class="social-arrow">↗</span>
+              </a>
+
+              <a href="mailto:nandana.rajan.r@gmail.com" class="social-row">
+                <div>
+                  <div class="social-label">Direct Electronic Mail</div>
+                  <div class="social-handle">nandana.rajan.r@gmail.com</div>
+                </div>
+                <span class="social-arrow">✉</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column: Full-Stack Contact Form & Live REST API Response Log -->
+          <div class="contact-form-panel">
+            <div class="form-panel-header">
+              <div>
+                <h3 class="title-font" style="font-size: 1.15rem;">Dispatch a <em>Message</em></h3>
+                <p style="font-size: 0.8rem; color: var(--fg-muted);">Routed via in-browser REST API controller &amp; local persistence store</p>
+              </div>
+              <span class="mono-pill">POST /api/v1/contact</span>
+            </div>
+
+            <form id="contact-form" novalidate>
+              <div class="form-group">
+                <label for="sender-name">01 // YOUR NAME OR ORGANIZATION *</label>
+                <input type="text" id="sender-name" class="form-control" placeholder="e.g. Ada Lovelace // Systems Lab" required />
+              </div>
+
+              <div class="form-group">
+                <label for="sender-email">02 // RETURN EMAIL ADDRESS *</label>
+                <input type="email" id="sender-email" class="form-control" placeholder="e.g. ada@analytical-engine.org" required />
+              </div>
+
+              <div class="form-group">
+                <label for="sender-topic">03 // INQUIRY CLASSIFICATION</label>
+                <input type="text" id="sender-topic" class="form-control" placeholder="e.g. Systems Engineering Role / Open-Source Collaboration" />
+              </div>
+
+              <div class="form-group">
+                <label for="sender-message">04 // TRANSMISSION PAYLOAD *</label>
+                <textarea id="sender-message" class="form-control" placeholder="Write your message to Nandana..." required></textarea>
+              </div>
+
+              <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;">
+                <button type="submit" class="btn-mono solid" id="submit-btn">
+                  TRANSMIT PAYLOAD [ENTER]
+                </button>
+                <button type="button" class="btn-mono" id="mailto-fallback-btn">
+                  OPEN IN MAIL CLIENT ↗
+                </button>
+                <button type="button" class="btn-mono" id="view-stored-btn">
+                  VIEW STORED LOGS (<span id="stored-count">0</span>)
+                </button>
+              </div>
+            </form>
+
+            <div class="api-log-box" id="api-response-log" aria-live="polite">
+[SYSTEM READY] In-Browser Full-Stack REST Controller initialized.
+[ENDPOINT] Listening on POST /api/v1/contact (Storage: IndexedDB/LocalStorage)
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Project Architecture ASCII Deep-Dive Modal -->
+  <div class="modal-backdrop" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-proj-title">
+    <div class="modal-window">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-hairline); padding-bottom:0.9rem; margin-bottom:1.25rem;">
+        <div>
+          <span class="section-eyebrow" id="modal-proj-cat" style="margin-bottom:0.2rem;">SPECIFICATION</span>
+          <h3 class="title-font" id="modal-proj-title" style="font-size:1.5rem;">Project Title</h3>
+        </div>
+        <button class="btn-mono" onclick="closeProjectModal()">✕ CLOSE [ESC]</button>
+      </div>
+      <pre class="ascii-art" id="modal-proj-ascii" style="margin-bottom:1.25rem; border:1px solid var(--border-hairline);"></pre>
+      <p id="modal-proj-desc" class="lead-para" style="font-size:0.95rem; margin-bottom:1.25rem;"></p>
+      <div id="modal-proj-bullets" style="font-family:var(--font-body); font-weight:300; font-size:0.88rem; color:var(--fg-secondary); line-height:1.75; margin-bottom:1.5rem;"></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-hairline); padding-top:1rem;">
+        <span style="font-family:var(--font-ascii); font-size:0.72rem; color:var(--fg-muted);">AUTHOR: NANDANA RAJAN .R (@nxn0)</span>
+        <a id="modal-proj-link" href="https://github.com/nxn0" target="_blank" rel="noopener noreferrer" class="btn-mono solid">OPEN REPOSITORY ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Full-Stack CLI & REST API Console Drawer -->
+  <aside class="terminal-drawer" id="terminal-drawer" aria-label="Interactive Full-Stack Terminal">
+    <div class="terminal-bar">
+      <span>nxn0@portfolio-server:~# Full-Stack Interactive Shell &amp; REST API Inspector</span>
+      <div style="display:flex; gap:0.5rem;">
+        <button class="ascii-tab-btn" onclick="runTerminalCmd('help')">help</button>
+        <button class="ascii-tab-btn" onclick="runTerminalCmd('GET /api/v1/profile')">GET /profile</button>
+        <button class="ascii-tab-btn" onclick="runTerminalCmd('GET /api/v1/projects')">GET /projects</button>
+        <button class="ascii-tab-btn" onclick="runTerminalCmd('GET /api/v1/messages')">GET /messages</button>
+        <button class="ascii-tab-btn" onclick="toggleTerminal(false)">✕ HIDE</button>
+      </div>
+    </div>
+    <div class="terminal-output" id="terminal-output">Welcome to NXN0 Full-Stack Portfolio OS (v2.6.0-monochrome).
+Type 'help' to list available shell &amp; REST API commands, or click a quick-action button above.
+</div>
+    <div class="terminal-input-row">
+      <span class="terminal-prompt">nandana@nxn0:~$</span>
+      <input type="text" id="terminal-input" class="terminal-input" placeholder="Type a command (help, whoami, ls, GET /api/v1/projects, clear)..." autocomplete="off" />
+    </div>
+  </aside>
+
+  <footer>
+    <div>
+      <strong style="font-family:var(--font-title); color:#fff;">NANDANA RAJAN .R</strong>
+      <span> // Designed in sleek monochrome with <em>Playfair Display</em>, Arial &amp; Inter Light.</span>
+    </div>
+    <div style="display:flex; gap:1.5rem; font-family:var(--font-ascii); font-size:0.75rem;">
+      <a href="https://github.com/nxn0" target="_blank" rel="noopener noreferrer" style="color:var(--fg-secondary); text-decoration:none;">github.com/nxn0</a>
+      <a href="https://www.linkedin.com/in/nxn0" target="_blank" rel="noopener noreferrer" style="color:var(--fg-secondary); text-decoration:none;">linkedin.com/in/nxn0</a>
+      <a href="#sec-hero" style="color:#ffffff; text-decoration:none;">↑ TOP</a>
+    </div>
+  </footer>
+
+  <!-- =====================================================================
+       VANILLA JAVASCRIPT FULL-STACK APPLICATION CONTROLLER
+       ===================================================================== -->
+  <script>
+    /* ---------------------------------------------------------------------
+       1. HERO & ABOUT INTERACTIVE WHITE ASCII ART DATASETS
+       --------------------------------------------------------------------- */
+    const HERO_ASCII_MODES = {
+      crest: `   ╔══════════════════════════════════════════════════════════════════╗
+   ║  ███╗   ██╗██╗  ██╗███╗   ██╗ ██████╗     // NANDANA RAJAN .R    ║
+   ║  ████╗  ██║╚██╗██╔╝████╗  ██║██╔═████╗    // HANDLE: @nxn0       ║
+   ║  ██╔██╗ ██║ ╚███╔╝ ██╔██╗ ██║██║██╔██║    // ARCH • GENTOO • LFS ║
+   ║  ██║╚██╗██║ ██╔██╗ ██║╚██╗██║████╔╝██║    // C • PYTHON • DJANGO ║
+   ║  ██║ ╚████║██╔╝ ██╗██║ ╚████║╚██████╔╝    // SECURITY & AI/ML    ║
+   ║  ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝     // LOC: 8.52°N 76.93°E ║
+   ╠══════════════════════════════════════════════════════════════════╣
+   ║                                                                  ║
+   ║          .---.          ┌─────────────────────────────────────┐  ║
+   ║         /     \\         │ $ whoami                            │  ║
+   ║        | () () |        │ > nandana_rajan_r (helya / nxn0)    │  ║
+   ║         \\  ^  /         │ $ uname -srm                        │  ║
+   ║          |||||          │ > Linux 6.x-lfs-nxn0 x86_64         │  ║
+   ║      .---'---'---.      │ $ cat /proc/focus                   │  ║
+   ║     /  [RING-0]   \\     │ > [x] Bare-Metal Unikernels         │  ║
+   ║    |  .---------.  |    │ > [x] On-Device Deepfake Detection  │  ║
+   ║    |  | 0100111 |  |    │ > [x] Automated Security & QA       │  ║
+   ║    |  '---------'  |    │ > [x] Full-Stack Web Engineering    │  ║
+   ║     \\_____________/     └─────────────────────────────────────┘  ║
+   ║                                                                  ║
+   ║  [SYS_CLOCK: ACTIVE] ─── [MEM: OPTIMAL] ─── [SCROLL TO MIX ↓↓↓]  ║
+   ╚══════════════════════════════════════════════════════════════════╝`,
+
+      kernel: `   ╔══════════════════════════════════════════════════════════════════╗
+   ║  KERNEL & UNIKERNEL TOPOLOGY // BARE-METAL EXECUTION PIPELINE    ║
+   ╠══════════════════════════════════════════════════════════════════╣
+   ║                                                                  ║
+   ║   ┌──────────────────────────────────────────────────────────┐   ║
+   ║   │ APPLICATION RING  //  Aegis ONNX  |  BitNet  |  Django   │   ║
+   ║   └────────────────────────────┬─────────────────────────────┘   ║
+   ║                                │ syscall / direct link           ║
+   ║                                ▼                                 ║
+   ║   ┌──────────────────────────────────────────────────────────┐   ║
+   ║   │ RUNTIME LAYER     //  Unikraft Unikernel  |  glibc / C   │   ║
+   ║   │   ├── Zero redundant OS daemons                          │   ║
+   ║   │   ├── Single address-space static binary                 │   ║
+   ║   │   └── Custom Linux From Scratch (LFS) toolchain          │   ║
+   ║   └────────────────────────────┬─────────────────────────────┘   ║
+   ║                                │ bare-metal ring-0               ║
+   ║                                ▼                                 ║
+   ║   ┌──────────────────────────────────────────────────────────┐   ║
+   ║   │ HARDWARE TARGETS  //  x86_64 CPU  |  ARM64  |  ESP8266   │   ║
+   ║   └──────────────────────────────────────────────────────────┘   ║
+   ║                                                                  ║
+   ║  [BOOT: 0.04s] ─── [CONTEXT SWITCHES: MINIMAL] ─── [RING: 0]     ║
+   ╚══════════════════════════════════════════════════════════════════╝`,
+
+      wave: `   ╔══════════════════════════════════════════════════════════════════╗
+   ║  AEGIS ON-DEVICE AUDIO FORENSICS // 16kHz PCM WAVEFORM MATRIX    ║
+   ╠══════════════════════════════════════════════════════════════════╣
+   ║                                                                  ║
+   ║   AMPLITUDE (dB)                                                 ║
+   ║    +1.0 │       .│.             .│.             .│.              ║
+   ║    +0.5 │     .│││││.   .│.   .│││││.   .│.   .│││││.            ║
+   ║     0.0 ┼────█████████─█████─█████████─█████─█████████────► t(s) ║
+   ║    -0.5 │     '│││││'   '│'   '│││││'   '│'   '│││││'            ║
+   ║    -1.0 │       '│'             '│'             '│'              ║
+   ║         └────────┴───────────────┴───────────────┴────────       ║
+   ║               Window 01       Window 02       Window 03          ║
+   ║                                                                  ║
+   ║   [1] MediaExtractor & MediaCodec ──► 16,000 Hz Mono PCM         ║
+   ║   [2] 7-Layer Conv1D Extractor    ──► 12-Layer Transformer       ║
+   ║   [3] Local ONNX Runtime Engine   ──► Zero Cloud Uploads         ║
+   ║                                                                  ║
+   ║  [DETECTOR STATUS: VERIFIED] ─── [PRIVACY: 100% ON-DEVICE]       ║
+   ╚══════════════════════════════════════════════════════════════════╝`
+    };
+
+    const ABOUT_PILLAR_ASCII = {
+      systems: {
+        tag: "[01 // SYSTEMS & LINUX]",
+        art: `   ┌─────────────────────────────────────────────────────────────────┐
+   │              NANDANA'S MULTI-LAYERED SYSTEM STACK               │
+   ├─────────────────────────────────────────────────────────────────┤
+   │                                                                 │
+   │      .---.        ┌──────────────────────────────────────────┐  │
+   │     /     \\       │ LAYER 04 // FULL-STACK & INTERFACE       │  │
+   │    (  o o  )      │ Django • HTML/CSS/JS • Celery • Redis    │  │
+   │     \\  ▽  /       ├──────────────────────────────────────────┤  │
+   │     /\`---'\\       │ LAYER 03 // AI & ON-DEVICE INFERENCE     │  │
+   │    / /   \\ \\      │ Wav2Vec2 • BitNet 1-Bit • ONNX • Pandas  │  │
+   │   | |     | |     ├──────────────────────────────────────────┤  │
+   │   | | LFS | |     │ LAYER 02 // SECURITY & QA AUTOMATION     │  │
+   │    \\ \\___/ /      │ Selenium POM • OWASP ZAP • Burp • Nmap   │  │
+   │     \`._|_.'       ├──────────────────────────────────────────┤  │
+   │     __/ \\__       │ LAYER 01 // BARE METAL & KERNEL          │  │
+   │    (_______)      │ Linux From Scratch • Gentoo • Arch • C   │  │
+   │                   └──────────────────────────────────────────┘  │
+   │  "Compile from source. Audit every boundary. Ship clean code."  │
+   └─────────────────────────────────────────────────────────────────┘`
+      },
+      security: {
+        tag: "[02 // SECURITY & QA AUTOMATION]",
+        art: `   ┌─────────────────────────────────────────────────────────────────┐
+   │         C-DIT SECURITY & QA AUTOMATION ARCHITECTURE             │
+   ├─────────────────────────────────────────────────────────────────┤
+   │                                                                 │
+   │   ┌───────────────────────┐       ┌─────────────────────────┐   │
+   │   │ SELENIUM POM SUITE    │       │ OFFENSIVE AUDIT ARSENAL │   │
+   │   ├───────────────────────┤       ├─────────────────────────┤   │
+   │   │ • BaseDriver/BaseForm │       │ • OWASP ZAP & BurpSuite │   │
+   │   │ • ScreenshotOnFailure │──────►│ • Nikto Web Scanner     │   │
+   │   │ • Select2 JS Inject   │       │ • Nmap & Metasploit     │   │
+   │   │ • Session Re-Auth     │       │ • 17 Findings Logged    │   │
+   │   └───────────────────────┘       └─────────────────────────┘   │
+   │               │                                │                │
+   │               └──────────────┬─────────────────┘                │
+   │                              ▼                                  │
+   │        [ VERIFIED HARDENED WEB APPLICATION DEPLOYMENT ]         │
+   └─────────────────────────────────────────────────────────────────┘`
+      },
+      aiml: {
+        tag: "[03 // APPLIED AI & EDGE ML]",
+        art: `   ┌─────────────────────────────────────────────────────────────────┐
+   │           ON-DEVICE NEURAL INFERENCE & ML PIPELINES             │
+   ├─────────────────────────────────────────────────────────────────┤
+   │                                                                 │
+   │   RAW SIGNAL / DATA                                             │
+   │     │                                                           │
+   │     ├──► [Wav2Vec2 7-CNN + 12-Transformer] ──► ONNX Mobile      │
+   │     │         └──► Post-Call Deepfake Voice Detection (Aegis)   │
+   │     │                                                           │
+   │     ├──► [BitNet 1-Bit Ternary Quantization {-1, 0, +1}]        │
+   │     │         └──► Bare-Metal Unikraft Unikernel Execution      │
+   │     │                                                           │
+   │     └──► [Scikit-Learn / Pandas Feature Engineering]            │
+   │               └──► SVM • KNN • Logistic Regression Models       │
+   │                                                                 │
+   └─────────────────────────────────────────────────────────────────┘`
+      },
+      iot: {
+        tag: "[04 // EMBEDDED IOT & FULL-STACK]",
+        art: `   ┌─────────────────────────────────────────────────────────────────┐
+   │          EMBEDDED ESP8266 TELEMETRY & FULL-STACK WEB            │
+   ├─────────────────────────────────────────────────────────────────┤
+   │                                                                 │
+   │    ┌──────────────────┐         Wi-Fi          ┌─────────────┐  │
+   │    │ ESP8266 NODE     │ ◄════════════════════► │ BLYNK CLOUD │  │
+   │    │ [GPIO / RELAYS]  │   State Sync / Trigger │ & WEB DASH  │  │
+   │    └──────────────────┘                        └─────────────┘  │
+   │                                                                 │
+   │    ┌──────────────────┐      Async Queue       ┌─────────────┐  │
+   │    │ DJANGO BACKEND   │ ═════════════════════► │ CELERY +    │  │
+   │    │ Auth & Inventory │                        │ REDIS NODES │  │
+   │    └──────────────────┘                        └─────────────┘  │
+   │                                                                 │
+   └─────────────────────────────────────────────────────────────────┘`
+      }
+    };
+
+    const PROJECT_SPECS = {
+      aegis: {
+        cat: "01 // ON-DEVICE AI & AUDIO FORENSICS",
+        title: "Aegis: On-Device AI Deepfake Voice Detector",
+        link: "https://github.com/nxn0/aegis",
+        ascii: `   ┌────────────────────────────────────────────────────────────────────┐
+   │ [CALL ENDS] ──► [Wait 5s] ──► [MediaStore Newest Audio Query]      │
+   │      │                                                             │
+   │      ▼                                                             │
+   │ [MediaExtractor + MediaCodec] ──► [16kHz Mono PCM Normalization]   │
+   │      │                                                             │
+   │      ▼                                                             │
+   │ [10s Audio / 1s Overlapping Windows] ──► [Wav2Vec2 ONNX Runtime]   │
+   │      │                                                             │
+   │      ▼                                                             │
+   │ [Median Score Aggregation >= 60% Threshold] ──► [Notification]     │
+   └────────────────────────────────────────────────────────────────────┘`,
+        desc: "Aegis is a privacy-preserving Android post-call checker that analyzes call recordings locally for acoustic artifacts of synthetic or AI-cloned speech without ever uploading audio to a remote server.",
+        bullets: `<ul>
+          <li><strong>Architecture:</strong> 7-layer convolutional feature extractor + 12-layer Transformer encoder (12 attention heads, 768-dim hidden state) fine-tuned for binary spoof vs. bonafide classification.</li>
+          <li><strong>Zero Cloud Dependency:</strong> Runs 100% on-device via ONNX Runtime; never intercepts live calls or transmits private audio off the phone.</li>
+          <li><strong>Release:</strong> Published open-source on GitHub with compiled v1.0.0 APK release.</li>
+        </ul>`
+      },
+      bitnet: {
+        cat: "02 // UNIKERNEL SYSTEMS & EDGE AI",
+        title: "Unikernel Inference: Bare-Metal BitNet",
+        link: "https://github.com/nxn0",
+        ascii: `   ┌────────────────────────────────────────────────────────────────────┐
+   │   TRADITIONAL STACK                  UNIKERNEL BARE-METAL STACK    │
+   │  ┌──────────────────┐               ┌──────────────────────────┐   │
+   │  │ BitNet Inference │               │ BitNet + Unikraft Binary │   │
+   │  ├──────────────────┤               │ (Single Address Space,   │   │
+   │  │ Python / Runtime │               │  Zero Unused Services)   │   │
+   │  ├──────────────────┤               ├──────────────────────────┤   │
+   │  │ Full Linux Kernel│               │ Bare-Metal x86_64 HW     │   │
+   │  └──────────────────┘               └──────────────────────────┘   │
+   └────────────────────────────────────────────────────────────────────┘`,
+        desc: "Group research & systems engineering project integrating Microsoft Research's 1-bit quantized neural network architecture (BitNet) with the Unikraft modular unikernel.",
+        bullets: `<ul>
+          <li><strong>Problem Solved:</strong> Traditional OS kernels add 10–30% latency overhead and cold-start delays to lightweight edge LLM workloads.</li>
+          <li><strong>Unikraft Integration:</strong> Strips away unneeded filesystem, networking, and multi-process scheduler abstractions to run inference directly on x86_64 hardware.</li>
+        </ul>`
+      },
+      vanishing: {
+        cat: "03 // FULL-STACK WEB ARCHITECTURE",
+        title: "Vanishing Point: Library Management System",
+        link: "https://github.com/nxn0",
+        ascii: `   ┌────────────────────────────────────────────────────────────────────┐
+   │ [USER / ADMIN UI] ──► [DJANGO VIEWS & ORM] ──► [RELATIONAL DB]     │
+   │                              │                                     │
+   │                              ▼                                     │
+   │                       [REDIS BROKER]                               │
+   │                              │                                     │
+   │                              ▼                                     │
+   │                [CELERY BACKGROUND WORKERS]                         │
+   │          (Overdue Tracking & Automated Fine Engine)                │
+   └────────────────────────────────────────────────────────────────────┘`,
+        desc: "Full-stack library inventory and circulation platform engineered with Python and Django, complete with asynchronous task processing.",
+        bullets: `<ul>
+          <li><strong>Core Workflows:</strong> User authentication, digital catalog search, book checkout/return pipelines, file uploads, and admin payment verification dashboards.</li>
+          <li><strong>Async Automation:</strong> Uses Celery + Redis workers to track overdue loans and calculate fines automatically in the background.</li>
+        </ul>`
+      },
+      lfs: {
+        cat: "04 // OPERATING SYSTEMS & KERNEL",
+        title: "Linux From Scratch (LFS)",
+        link: "https://github.com/nxn0",
+        ascii: `   ┌────────────────────────────────────────────────────────────────────┐
+   │ [Host Toolchain] ──► [Cross-Binutils & GCC Pass 1]                 │
+   │        │                                                           │
+   │        ▼                                                           │
+   │ [Linux API Headers + glibc] ──► [Chroot Environment & Coreutils]   │
+   │        │                                                           │
+   │        ▼                                                           │
+   │ [Custom Kernel Compilation (vmlinuz)] ──► [GRUB Boot on Bare Metal]│
+   └────────────────────────────────────────────────────────────────────┘`,
+        desc: "Built a custom Linux operating system entirely from source code on bare metal to master kernel internals, init systems, and toolchain linking.",
+        bullets: `<ul>
+          <li><strong>Key Milestones:</strong> Compiled custom GCC/glibc toolchains, configured kernel drivers, set up init scripts, and debugged low-level user permission boundaries.</li>
+        </ul>`
+      },
+      seat: {
+        cat: "05 // ALGORITHMIC BACKEND ENGINE",
+        title: "Seat Allotment System in C",
+        link: "https://github.com/nxn0",
+        ascii: `   ┌────────────────────────────────────────────────────────────────────┐
+   │ [Candidate Records] ──► [Merit Rank Sort] ──► [Preference Matcher] │
+   │                                                      │             │
+   │                                                      ▼             │
+   │                                           [Seat Matrix Output]     │
+   └────────────────────────────────────────────────────────────────────┘`,
+        desc: "A deterministic backend allocation engine written in C for automated academic seat assignment based on merit rankings and student preferences.",
+        bullets: `<ul>
+          <li><strong>Implementation:</strong> Uses custom C structs, dynamic memory management, and fast sorting routines to resolve multi-preference seat contention.</li>
+        </ul>`
+      },
+      firefox: {
+        cat: "06 // OPEN-SOURCE UI & BROWSER CUSTOMIZATION",
+        title: "Mozilla Firefox Browser Theme",
+        link: "https://github.com/nxn0",
+        ascii: `   ┌────────────────────────────────────────────────────────────────────┐
+   │ ╔════════════════════════════════════════════════════════════════╗ │
+   │ ║ [Tab 1: Active] [Tab 2] +                     [ - ] [ □ ] [ × ]║ │
+   │ ╠════════════════════════════════════════════════════════════════╣ │
+   │ ║ ◄  ►  ↻  │ https://github.com/nxn0                        [≡]  ║ │
+   │ ╚════════════════════════════════════════════════════════════════╝ │
+   └────────────────────────────────────────────────────────────────────┘`,
+        desc: "An open-source custom browser theme designed and published on the official Mozilla Add-ons store.",
+        bullets: `<ul>
+          <li><strong>Design Focus:</strong> High-contrast monochrome palette crafted for readability and minimal visual fatigue during long coding sessions.</li>
+        </ul>`
+      }
+    };
+
+    /* ---------------------------------------------------------------------
+       2. IN-BROWSER FULL-STACK REST API & PERSISTENCE LAYER
+       --------------------------------------------------------------------- */
+    const STORAGE_KEY = "nxn0_portfolio_messages_v1";
+
+    const FullStackServer = {
+      getProfile() {
+        return {
+          status: 200,
+          timestamp: new Date().toISOString(),
+          data: {
+            name: "Nandana Rajan .R",
+            handle: "nxn0",
+            alias: "helya",
+            location: "Thiruvananthapuram, Kerala, India",
+            education: "Diploma in Computer Science and Engineering — LBS Institute of Technology for Women (2024–Present)",
+            links: {
+              github: "https://github.com/nxn0",
+              linkedin: "https://www.linkedin.com/in/nxn0",
+              email: "nandana.rajan.r@gmail.com"
+            }
+          }
+        };
+      },
+
+      getProjects() {
+        return {
+          status: 200,
+          count: 6,
+          timestamp: new Date().toISOString(),
+          projects: [
+            { id: "aegis", name: "Aegis: On-Device AI Deepfake Voice Detector", stack: ["Android", "Wav2Vec2", "ONNX Runtime", "16kHz PCM"], repo: "https://github.com/nxn0/aegis" },
+            { id: "bitnet", name: "Unikernel Inference: Bare-Metal BitNet", stack: ["Unikraft", "BitNet 1-Bit LLM", "x86_64 Bare Metal"], repo: "https://github.com/nxn0" },
+            { id: "vanishing", name: "Vanishing Point: Library Management System", stack: ["Python", "Django", "Celery", "Redis"], repo: "https://github.com/nxn0" },
+            { id: "lfs", name: "Linux From Scratch (LFS)", stack: ["Linux Kernel", "GCC Toolchain", "Bare Metal"], repo: "https://github.com/nxn0" },
+            { id: "seat", name: "Seat Allotment System", stack: ["C", "Algorithms", "Backend"], repo: "https://github.com/nxn0" },
+            { id: "firefox", name: "Firefox Browser Theme", stack: ["UI/UX", "Mozilla Add-ons", "Open Source"], repo: "https://github.com/nxn0" }
+          ]
+        };
+      },
+
+      getMessages() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+          return [];
+        }
+      },
+
+      postMessage(payload) {
+        if (!payload.name || !payload.email || !payload.message) {
+          return {
+            status: 400,
+            error: "Bad Request: name, email, and message fields are required."
+          };
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(payload.email)) {
+          return {
+            status: 422,
+            error: "Unprocessable Entity: Please provide a valid return email address."
+          };
+        }
+        const messages = this.getMessages();
+        const record = {
+          id: "msg_" + Math.random().toString(36).substring(2, 10),
+          name: payload.name.trim(),
+          email: payload.email.trim(),
+          topic: (payload.topic || "General Inquiry").trim(),
+          message: payload.message.trim(),
+          createdAt: new Date().toISOString(),
+          recipient: "nandana.rajan.r@gmail.com"
+        };
+        messages.unshift(record);
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+        } catch (e) {}
+        return {
+          status: 201,
+          statusText: "201 Created",
+          record
+        };
+      }
+    };
+
+    /* ---------------------------------------------------------------------
+       3. HERO & ABOUT INTERACTIVE CONTROLS
+       --------------------------------------------------------------------- */
+    document.querySelectorAll("[data-hero-ascii]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-hero-ascii]").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        const mode = btn.getAttribute("data-hero-ascii");
+        const pre = document.getElementById("hero-ascii-display");
+        const status = document.getElementById("hero-ascii-status");
+        pre.style.opacity = "0";
+        setTimeout(() => {
+          pre.textContent = HERO_ASCII_MODES[mode];
+          status.textContent = "MODE: " + mode.toUpperCase() + " // INTERACTIVE";
+          pre.style.opacity = "1";
+        }, 140);
+      });
+    });
+
+    document.querySelectorAll("[data-pillar]").forEach((card) => {
+      card.addEventListener("click", () => {
+        document.querySelectorAll("[data-pillar]").forEach((c) => c.classList.remove("active"));
+        card.classList.add("active");
+        const key = card.getAttribute("data-pillar");
+        const data = ABOUT_PILLAR_ASCII[key];
+        const pre = document.getElementById("about-ascii-display");
+        const tag = document.getElementById("about-ascii-tag");
+        pre.style.opacity = "0";
+        setTimeout(() => {
+          pre.textContent = data.art;
+          tag.textContent = data.tag;
+          pre.style.opacity = "1";
+        }, 140);
+      });
+    });
+
+    /* ---------------------------------------------------------------------
+       4. PROJECT FILTERING, SEARCH & MODAL
+       --------------------------------------------------------------------- */
+    const filterBtns = document.querySelectorAll(".filter-btn");
+    const searchInput = document.getElementById("project-search-input");
+    const projectCards = document.querySelectorAll(".project-card");
+    let currentFilter = "all";
+
+    function filterProjects() {
+      const query = (searchInput.value || "").toLowerCase().trim();
+      projectCards.forEach((card) => {
+        const cats = card.getAttribute("data-category") || "";
+        const kw = (card.getAttribute("data-keywords") || "") + " " + card.innerText.toLowerCase();
+        const matchesCat = currentFilter === "all" || cats.includes(currentFilter);
+        const matchesQuery = !query || kw.includes(query);
+        card.style.display = matchesCat && matchesQuery ? "flex" : "none";
+      });
+    }
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filterBtns.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentFilter = btn.getAttribute("data-filter");
+        filterProjects();
+      });
+    });
+
+    searchInput.addEventListener("input", filterProjects);
+
+    function openProjectModal(id) {
+      const spec = PROJECT_SPECS[id];
+      if (!spec) return;
+      document.getElementById("modal-proj-cat").textContent = spec.cat;
+      document.getElementById("modal-proj-title").textContent = spec.title;
+      document.getElementById("modal-proj-ascii").textContent = spec.ascii;
+      document.getElementById("modal-proj-desc").textContent = spec.desc;
+      document.getElementById("modal-proj-bullets").innerHTML = spec.bullets;
+      document.getElementById("modal-proj-link").href = spec.link;
+      document.getElementById("project-modal").classList.add("open");
+    }
+
+    function closeProjectModal() {
+      document.getElementById("project-modal").classList.remove("open");
+    }
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeProjectModal();
+      }
+    });
+
+    /* ---------------------------------------------------------------------
+       5. CONTACT FORM & LIVE ASCII HANDSHAKE ANIMATION
+       --------------------------------------------------------------------- */
+    const contactForm = document.getElementById("contact-form");
+    const apiLogBox = document.getElementById("api-response-log");
+    const storedCountEl = document.getElementById("stored-count");
+    const packetBadge = document.getElementById("packet-status-badge");
+
+    function updateStoredCount() {
+      storedCountEl.textContent = FullStackServer.getMessages().length;
+    }
+    updateStoredCount();
+
+    function animateHandshakeASCII(senderName) {
+      const contactPre = document.getElementById("contact-ascii-display");
+      packetBadge.textContent = "HTTP 201 // DISPATCHED";
+      contactPre.textContent = `   ┌─────────────────────────────────────────────────────────────────┐
+   │             TRANSMISSION ACKNOWLEDGED // 201 CREATED            │
+   ├─────────────────────────────────────────────────────────────────┤
+   │                                                                 │
+   │     [${(senderName || "CLIENT").slice(0, 14).toUpperCase().padEnd(14, " ")}]                     [NANDANA // @nxn0]     │
+   │          ┌────┐                                ┌────┐           │
+   │          │ 💻 │ ═══════ SYN (seq=0x01) ══════► │ 🛰️ │  [OK]     │
+   │          │    │ ◄══ SYN+ACK (ack=0x02) ═══════ │    │  [OK]     │
+   │          │    │ ═══ PAYLOAD STORED & ROUTED ═► │    │  [201]    │
+   │          └────┘                                └────┘           │
+   │                                                                 │
+   │   ┌─────────────────────────────────────────────────────────┐   │
+   │   │ STATUS   : HTTP/1.1 201 Created                         │   │
+   │   │ TARGET   : nandana.rajan.r@gmail.com                    │   │
+   │   │ TIMESTAMP: ${new Date().toISOString().slice(0, 19)}Z                        │   │
+   │   └─────────────────────────────────────────────────────────┘   │
+   └─────────────────────────────────────────────────────────────────┘`;
+    }
+
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById("sender-name").value,
+        email: document.getElementById("sender-email").value,
+        topic: document.getElementById("sender-topic").value,
+        message: document.getElementById("sender-message").value
+      };
+
+      const res = FullStackServer.postMessage(payload);
+      if (res.status !== 201) {
+        apiLogBox.innerHTML = `<span style="color:#fff;">[HTTP ${res.status} ERROR]</span> ${res.error}`;
+        return;
+      }
+
+      updateStoredCount();
+      animateHandshakeASCII(payload.name);
+      apiLogBox.textContent =
+        `[POST /api/v1/contact] -> ${res.statusText}\n` +
+        JSON.stringify(res.record, null, 2);
+      contactForm.reset();
+    });
+
+    document.getElementById("mailto-fallback-btn").addEventListener("click", () => {
+      const name = document.getElementById("sender-name").value || "Portfolio Visitor";
+      const topic = document.getElementById("sender-topic").value || "Portfolio Inquiry";
+      const msg = document.getElementById("sender-message").value || "Hi Nandana,";
+      const mailto = `mailto:nandana.rajan.r@gmail.com?subject=${encodeURIComponent(topic + " — from " + name)}&body=${encodeURIComponent(msg)}`;
+      window.location.href = mailto;
+    });
+
+    document.getElementById("view-stored-btn").addEventListener("click", () => {
+      const msgs = FullStackServer.getMessages();
+      if (msgs.length === 0) {
+        apiLogBox.textContent = "[GET /api/v1/messages] -> 200 OK\n[] (No dispatches stored yet. Submit the form above to test.)";
+      } else {
+        apiLogBox.textContent = `[GET /api/v1/messages] -> 200 OK (${msgs.length} records)\n` + JSON.stringify(msgs, null, 2);
+      }
+    });
+
+    /* ---------------------------------------------------------------------
+       6. INTERACTIVE CLI & REST API CONSOLE DRAWER + NODE.JS EXPORTER
+       --------------------------------------------------------------------- */
+    const terminalDrawer = document.getElementById("terminal-drawer");
+    const terminalOutput = document.getElementById("terminal-output");
+    const terminalInput = document.getElementById("terminal-input");
+
+    function toggleTerminal(force) {
+      const isOpen = typeof force === "boolean" ? force : !terminalDrawer.classList.contains("open");
+      terminalDrawer.classList.toggle("open", isOpen);
+      if (isOpen) {
+        setTimeout(() => terminalInput.focus(), 100);
+      }
+    }
+
+    document.getElementById("toggle-terminal-btn").addEventListener("click", () => toggleTerminal());
+
+    function runTerminalCmd(rawCmd) {
+      const cmd = (rawCmd || "").trim();
+      if (!cmd) return;
+      let out = `\nnandana@nxn0:~$ ${cmd}\n`;
+      const lower = cmd.toLowerCase();
+
+      if (lower === "help") {
+        out += [
+          "Available Full-Stack Shell & REST Commands:",
+          "  whoami                 — Display Nandana's bio & system identity",
+          "  ls                     — List portfolio sections & repositories",
+          "  skills                 — Print verified technical stack",
+          "  GET /api/v1/profile    — Query REST endpoint for profile JSON",
+          "  GET /api/v1/projects   — Query REST endpoint for projects JSON",
+          "  GET /api/v1/messages   — Query stored contact dispatches",
+          "  clear                  — Clear terminal buffer"
+        ].join("\n");
+      } else if (lower === "clear") {
+        terminalOutput.textContent = "";
+        return;
+      } else if (lower === "whoami") {
+        out += "Nandana Rajan .R (@nxn0 / helya)\nDiploma in Computer Science & Engineering @ LBSITW, Thiruvananthapuram\nFocus: Bare-Metal Linux (LFS/Gentoo/Arch), On-Device AI (Aegis/BitNet), Security & Full-Stack Web.";
+      } else if (lower === "ls") {
+        out += "01_hi_im_nandana/   02_about_me/   03_my_projects/   04_contact_me/\nRepos: aegis/  unikernel-bitnet/  vanishing-point-lms/  linux-from-scratch/  seat-allotment-c/  firefox-theme/";
+      } else if (lower === "skills") {
+        out += "Languages : C, Python, HTML5, CSS3, JavaScript, Shell\nSystems   : Linux From Scratch (LFS), Gentoo, Arch, Unikraft, KVM/QEMU, GCC\nAI / ML   : Wav2Vec2, ONNX Runtime, BitNet 1-Bit, Pandas, scikit-learn\nWeb & QA  : Django, Celery, Redis, Selenium POM, OWASP ZAP, Burp Suite, Nmap";
+      } else if (lower.includes("/profile")) {
+        out += JSON.stringify(FullStackServer.getProfile(), null, 2);
+      } else if (lower.includes("/projects")) {
+        out += JSON.stringify(FullStackServer.getProjects(), null, 2);
+      } else if (lower.includes("/messages")) {
+        out += JSON.stringify(FullStackServer.getMessages(), null, 2);
+      } else {
+        out += `Command not recognized: '${cmd}'. Type 'help' for available commands.`;
+      }
+
+      terminalOutput.textContent += out + "\n";
+      terminalOutput.scrollTop = terminalOutput.scrollHeight;
+    }
+
+    terminalInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        runTerminalCmd(terminalInput.value);
+        terminalInput.value = "";
+      }
+    });
+
+    function downloadNodeServer() {
+      const serverCode = `/**
+ * Zero-Dependency Node.js Full-Stack Server for Nandana Rajan .R (@nxn0) Portfolio
+ * Run with: node server.js
+ */
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+const PORT = process.env.PORT || 3000;
+const DB_FILE = path.join(__dirname, 'messages.json');
+
+if (!fs.existsSync(DB_FILE)) {
+  fs.writeFileSync(DB_FILE, JSON.stringify([], null, 2));
+}
+
+const server = http.createServer((req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204);
+    return res.end();
+  }
+
+  if (req.url === '/api/v1/profile' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    return res.end(JSON.stringify({
+      name: 'Nandana Rajan .R',
+      handle: 'nxn0',
+      github: 'https://github.com/nxn0',
+      linkedin: 'https://www.linkedin.com/in/nxn0',
+      email: 'nandana.rajan.r@gmail.com'
+    }));
+  }
+
+  if (req.url === '/api/v1/contact' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body);
+        const msgs = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
+        const record = { id: Date.now(), ...payload, createdAt: new Date().toISOString() };
+        msgs.unshift(record);
+        fs.writeFileSync(DB_FILE, JSON.stringify(msgs, null, 2));
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 201, record }));
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Invalid JSON payload' }));
+      }
+    });
+    return;
+  }
+
+  // Serve nandana_portfolio.html by default
+  const htmlPath = path.join(__dirname, 'nandana_portfolio.html');
+  if (fs.existsSync(htmlPath)) {
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    fs.createReadStream(htmlPath).pipe(res);
+  } else {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Place nandana_portfolio.html in the same folder as server.js');
+  }
+});
+
+server.listen(PORT, () => {
+  console.log('NXN0 Full-Stack Portfolio Server listening on http://localhost:' + PORT);
+});
+`;
+      const blob = new Blob([serverCode], { type: "application/javascript" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "server.js";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    /* ---------------------------------------------------------------------
+       7. SEAMLESS VERTICAL SCROLL BACKGROUND MIXER & ASCII CANVAS ENGINE
+       --------------------------------------------------------------------- */
+    const canvas = document.getElementById("bg-mixer-canvas");
+    const ctx = canvas.getContext("2d");
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+    let scrollProgress = 0; // 0.0 to 3.0 across the 4 sections
+
+    window.addEventListener("resize", () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      const xPct = ((e.clientX / window.innerWidth) * 100).toFixed(1) + "%";
+      const yPct = ((e.clientY / window.innerHeight) * 100).toFixed(1) + "%";
+      document.documentElement.style.setProperty("--cursor-x", xPct);
+      document.documentElement.style.setProperty("--cursor-y", yPct);
+    });
+
+    // Character sets that morph seamlessly across the 4 sections
+    const SECTION_GLYPHS = [
+      ["0", "1", "N", "X", "∙", ":"],          // Sec 1: hi im nandana
+      ["/", "\\", "|", "+", "─", "L", "F", "S"], // Sec 2: about me (system tree)
+      ["[", "]", "{", "}", "#", "=", "*"],     // Sec 3: my projects (architecture)
+      ["~", "^", "•", "→", "←", "S", "Y", "N"] // Sec 4: contact me (signal handshake)
+    ];
+
+    const particles = Array.from({ length: 68 }, (_, i) => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      speedY: 0.18 + Math.random() * 0.45,
+      speedX: (Math.random() - 0.5) * 0.25,
+      size: 10 + Math.floor(Math.random() * 4),
+      seed: i
+    }));
+
+    function updateScrollMixing() {
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const norm = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+      scrollProgress = norm * 3; // 0..3 across 4 sections
+
+      // Smoothly mix background luminosity between sections so transitions are seamless
+      const secIndex = Math.min(3, Math.round(scrollProgress));
+      const bgTones = ["#000000", "#050505", "#020202", "#000000"];
+      document.body.style.backgroundColor = bgTones[secIndex];
+
+      // Update active nav & right scroll rail
+      const sectionIds = ["sec-hero", "sec-about", "sec-projects", "sec-contact"];
+      const activeId = sectionIds[secIndex];
+      document.querySelectorAll(".nav-links a").forEach((a) => {
+        a.classList.toggle("active", a.getAttribute("data-sec") === activeId);
+      });
+      document.querySelectorAll(".rail-item").forEach((r) => {
+        r.classList.toggle("active", r.getAttribute("data-rail") === activeId);
+      });
+    }
+
+    window.addEventListener("scroll", updateScrollMixing, { passive: true });
+    updateScrollMixing();
+
+    // IntersectionObserver for section reveal transitions
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll(".reveal-block").forEach((el) => observer.observe(el));
+
+    // Render loop for ambient ASCII background mixer
+    let tick = 0;
+    function renderAsciiMixer() {
+      tick += 0.015;
+      ctx.clearRect(0, 0, width, height);
+
+      const lowerSec = Math.min(3, Math.floor(scrollProgress));
+      const upperSec = Math.min(3, lowerSec + 1);
+      const blend = scrollProgress - lowerSec;
+
+      ctx.font = "300 11px 'JetBrains Mono', monospace";
+      particles.forEach((p, idx) => {
+        p.y -= p.speedY;
+        p.x += p.speedX + Math.sin(tick + p.seed) * 0.15;
+        if (p.y < -20) p.y = height + 20;
+        if (p.x < -20) p.x = width + 20;
+        if (p.x > width + 20) p.x = -20;
+
+        // Pick glyph based on scroll blend between current and next section
+        const glyphSet = (idx % 10) / 10 < blend ? SECTION_GLYPHS[upperSec] : SECTION_GLYPHS[lowerSec];
+        const glyph = glyphSet[(idx + Math.floor(tick * 2)) % glyphSet.length];
+        const alpha = 0.08 + 0.12 * Math.abs(Math.sin(tick + p.seed));
+        ctx.fillStyle = `rgba(255, 255, 255, ${alpha.toFixed(3)})`;
+        ctx.fillText(glyph, p.x, p.y);
+      });
+
+      requestAnimationFrame(renderAsciiMixer);
+    }
+    renderAsciiMixer();
+  </script>
+</body>
+</html>
