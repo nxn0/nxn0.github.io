@@ -21,8 +21,8 @@
       --fg-dim: #3a3a3a;
       --border-hairline: rgba(255, 255, 255, 0.14);
       --border-strong: rgba(255, 255, 255, 0.38);
-      --card-bg: rgba(10, 10, 10, 0.78);
-      --card-hover: rgba(22, 22, 22, 0.92);
+      --card-bg: transparent;
+      --card-hover: rgba(255, 255, 255, 0.4);
       --font-title: Arial, "Helvetica Neue", Helvetica, sans-serif;
       --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       --font-emphasis: "Playfair Display", Georgia, "Times New Roman", Times, serif;
@@ -599,18 +599,24 @@
     }
 
     .pillar-card {
-      background: #050505;
+      background: var(--card-bg);
       border: 1px solid var(--border-hairline);
       padding: 1rem 1.15rem;
       cursor: pointer;
-      transition: all 0.25s ease;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
       text-align: left;
     }
 
     .pillar-card:hover,
     .pillar-card.active {
-      background: #111111;
+      background: var(--card-hover);
+      color: #000000;
       border-color: #ffffff;
+    }
+
+    .pillar-card:hover p,
+    .pillar-card.active p {
+      color: rgba(0, 0, 0, 0.62);
     }
 
     .pillar-card h4 {
@@ -641,12 +647,24 @@
       border: 1px solid var(--border-hairline);
       padding: 1.35rem 1.5rem;
       position: relative;
-      transition: border-color 0.25s ease, transform 0.25s ease;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
     }
 
     .timeline-card:hover {
+      background: var(--card-hover);
+      color: #000000;
       border-color: var(--border-strong);
       transform: translateX(4px);
+    }
+
+    .timeline-card:hover .timeline-role {
+      color: #000000;
+    }
+
+    .timeline-card:hover .timeline-date,
+    .timeline-card:hover .timeline-org,
+    .timeline-card:hover .timeline-desc {
+      color: rgba(0, 0, 0, 0.62);
     }
 
     .timeline-meta {
@@ -796,7 +814,7 @@
     }
 
     .project-card {
-      background: #030303;
+      background: var(--card-bg);
       border: 1px solid var(--border-hairline);
       display: flex;
       flex-direction: column;
@@ -806,9 +824,22 @@
     }
 
     .project-card:hover {
+      background: var(--card-hover);
       border-color: #ffffff;
       transform: translateY(-4px);
       box-shadow: 0 14px 34px rgba(255, 255, 255, 0.05);
+    }
+
+    .project-card:hover .project-title {
+      color: #000000;
+    }
+
+    .project-card:hover .project-cat,
+    .project-card:hover .project-subtitle,
+    .project-card:hover .project-desc,
+    .project-card:hover .project-stack span,
+    .project-card:hover .project-links a {
+      color: rgba(0, 0, 0, 0.62);
     }
 
     .project-ascii-banner {
