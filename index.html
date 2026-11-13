@@ -156,12 +156,18 @@ let W,H,cols,rows;
 const hash=(x,y,s)=>{let h=Math.imul(x,374761393)^Math.imul(y,668265263)^Math.imul(s+1,2246822519);h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967296};
 function size(){const d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);cols=Math.ceil(W/cw);rows=Math.ceil(H/ch);ctx.font='12px ui-monospace,Menlo,Consolas,monospace';ctx.textBaseline='top'}
 function prog(){const y=scrollY+innerHeight/2,t=secs.map(s=>s.offsetTop);let i=0;while(i<3&&y>=t[i+1])i++;if(i>=3)return 3;const f=(y-t[i])/(t[i+1]-t[i]);return i+f*f*(3-2*f)}
+function patchLevel(x,y,t){const gx=x*cw/180,gy=y*ch/150,ix=Math.floor(gx),iy=Math.floor(gy),fx=gx-ix,fy=gy-iy;
+const sx=fx*fx*(3-2*fx),sy=fy*fy*(3-2*fy);
+const node=(px,py)=>{const phase=hash(px,py,11)*Math.PI*2,period=5200+hash(px,py,12)*2800,v=.5+.5*Math.sin(t/period*Math.PI*2+phase);return v*v*(3-2*v)};
+const top=node(ix,iy)+(node(ix+1,iy)-node(ix,iy))*sx,bottom=node(ix,iy+1)+(node(ix+1,iy+1)-node(ix,iy+1))*sx;
+return top+(bottom-top)*sy}
 function draw(t=0){const f=prog(),a=Math.min(3,Math.floor(f)),b=Math.min(3,a+1),fr=f-a;ctx.clearRect(0,0,W,H);ctx.fillStyle='#fff';
 for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){const set=sets[hash(x,y,7)<fr?b:a],c=set[(hash(x,y,1)*set.length)|0];if(c===' ')continue;
 const phase=hash(x,y,2)*Math.PI*2,ambient=.01+.06*(.5+.5*Math.sin(t/938+phase));
 const spark=hash(x,y,3)>.985,period=(1800+hash(x,y,4)*2200)*1.1;
 const pulse=Math.max(0,Math.sin(t/period*Math.PI*2+hash(x,y,5)*Math.PI*2));
-ctx.globalAlpha=Math.min(.7,ambient+(spark?Math.pow(pulse,10)*.7:0));ctx.fillText(c,x*cw,y*ch)}ctx.globalAlpha=1}
+const patch=patchLevel(x,y,t);
+ctx.globalAlpha=Math.min(.7,ambient+(spark?Math.pow(pulse,10)*.7:0))*patch;ctx.fillText(c,x*cw,y*ch)}ctx.globalAlpha=1}
 size();draw();
 const still=matchMedia('(prefers-reduced-motion:reduce)').matches;let last=0;
 function loop(t){if(t-last>66){draw(t);last=t}requestAnimationFrame(loop)}
