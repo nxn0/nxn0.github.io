@@ -20,8 +20,7 @@ a{color:inherit}
 #bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;background:url('assets/7777777777777777777775.svg') center/cover no-repeat}
 .sec{position:relative;z-index:1;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:96px 7vw}
 .wrap{width:100%;max-width:1040px;margin:0 auto}
-.art{font-family:var(--mono);color:var(--fg);white-space:pre;margin:0;line-height:1.15;font-size:clamp(9px,1.6vw,15px);
--webkit-mask-image:linear-gradient(to bottom,transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 18%,#000 82%,transparent);overflow-x:auto;max-width:100%;scrollbar-width:none}
+.art{font-family:var(--mono);color:var(--fg);white-space:pre;margin:0;line-height:1.15;font-size:clamp(9px,1.6vw,15px);overflow-x:auto;max-width:100%;scrollbar-width:none}
 .art::-webkit-scrollbar{display:none}
 h1,h2,h3{font-family:var(--title);font-weight:700;letter-spacing:-.02em;margin:0;line-height:1.05}
 h2{font-size:clamp(2.2rem,6vw,4.4rem);margin-bottom:2rem}
@@ -31,7 +30,7 @@ p{margin:0 0 1.2rem;color:var(--dim);font-size:1.05rem;max-width:52ch}
 p em{color:var(--fg)}
 /* hero */
 .hero h1{font-size:clamp(2.4rem,7vw,5.4rem);margin-bottom:2rem}
-#name{font-size:clamp(11px,3.3vw,38px);line-height:.95;margin-bottom:2.4rem;-webkit-mask-image:none;mask-image:none;overflow:visible}
+#name{font-size:clamp(11px,3.3vw,38px);line-height:.95;margin-bottom:2.4rem;overflow:visible}
 .lead{font-size:clamp(1.05rem,2vw,1.4rem);color:var(--fg);max-width:40ch}
 .cur{animation:blink 1.1s steps(1) infinite;font-family:var(--mono)}
 @keyframes blink{50%{opacity:0}}
@@ -39,7 +38,7 @@ p em{color:var(--fg)}
 .hint::after{content:'';display:block;width:1px;height:38px;margin:10px auto 0;background:linear-gradient(var(--fg),transparent);animation:drop 1.8s ease-in-out infinite}
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 /* about */
-.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4rem;align-items:center}
+.cols{display:grid;grid-template-columns:minmax(0,1fr);gap:4rem;align-items:center}
 .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
 .chips span{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);padding:.35rem .8rem;border-radius:99px;color:var(--dim)}
 .experience{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;margin-top:3rem;background:var(--line);border:1px solid var(--line)}
@@ -60,13 +59,11 @@ p em{color:var(--fg)}
 .card:hover p,.card:hover .tags{color:rgba(0,0,0,.62)}
 .feat{grid-column:1/-1}
 .proj-top{display:flex;gap:3rem;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}
-.proj-top .art{font-size:clamp(8px,1.4vw,13px)}
 /* contact */
 .links{margin-top:2.4rem;border-top:1px solid var(--line)}
 .links a,.links .row{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:1.4rem 0;border-bottom:1px solid var(--line);text-decoration:none;font-family:var(--title);font-size:clamp(1.4rem,4vw,2.6rem);font-weight:700;letter-spacing:-.02em;transition:padding .35s,opacity .35s}
 .links small{font-family:var(--mono);font-size:.75rem;font-weight:400;letter-spacing:0;color:var(--dim)}
 .links:hover a,.links:hover .row{opacity:.4}.links a:hover,.links .row:hover{opacity:1;padding-left:1.2rem}
-.contact .art{margin-bottom:2rem;font-size:clamp(9px,1.7vw,15px)}
 footer{margin-top:4rem;font-family:var(--mono);font-size:.7rem;color:var(--dim);letter-spacing:.1em}
 /* nav + reveal */
 .dots{position:fixed;right:max(18px,3vw);top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:18px}
@@ -106,7 +103,6 @@ footer{margin-top:4rem;font-family:var(--mono);font-size:.7rem;color:var(--dim);
 <p class="rv" style="--d:.2s">from Linux From Scratch and bare-metal unikernels to private, on-device audio analysis: i like understanding what happens beneath the interface.</p>
 <div class="chips rv" style="--d:.3s"><span>C</span><span>Python</span><span>Java</span><span>HTML / CSS / JS</span><span>Django</span><span>Celery / Redis</span><span>ONNX Runtime</span><span>Wav2Vec2</span><span>Unikraft</span><span>Selenium POM</span><span>Linux shell</span><span>Arch / Gentoo / LFS</span><span>OWASP ZAP</span><span>Burp Suite</span><span>Nikto / Nmap</span><span>KVM / QEMU</span><span>GCC / Vim</span><span>ESP8266</span></div>
 </div>
-<pre class="art" id="art2" aria-hidden="true"></pre>
 </div>
 <div class="experience rv">
 <article><div class="meta">MAY–JUNE 2026 · C-DIT · THIRUVANANTHAPURAM</div><h3>QA testing &amp; security assessment intern</h3><p>Built a modular Python Selenium suite using Page Object Model patterns and audited an eTicket portal with Nikto, Burp Suite, OWASP ZAP, Metasploit, Nmap, and Whois. Documented 17 findings.</p></article>
@@ -122,7 +118,6 @@ footer{margin-top:4rem;font-family:var(--mono);font-size:.7rem;color:var(--dim);
 <span class="idx rv">03 / work</span>
 <div class="proj-top">
 <h2 class="rv" style="margin:0">my <em>projects</em></h2>
-<pre class="art" id="art3" aria-hidden="true"></pre>
 </div>
 <div class="grid">
 <article class="card rv"><h3>Aegis: deepfake voice detector</h3><div class="tags">ANDROID · WAV2VEC2 · ONNX RUNTIME</div><p>a privacy-first Android app that checks post-call recordings for synthetic voices, processing audio locally as 16 kHz PCM with Wav2Vec2 and ONNX Runtime.</p><a href="https://github.com/nxn0/aegis" target="_blank" rel="noopener">view repo ↗</a> <a href="https://github.com/nxn0/aegis/releases/tag/1.0.0" target="_blank" rel="noopener">APK v1.0 ↗</a></article>
@@ -138,7 +133,6 @@ footer{margin-top:4rem;font-family:var(--mono);font-size:.7rem;color:var(--dim);
 <section class="sec contact" id="s4">
 <div class="wrap">
 <span class="idx rv">04 / contact</span>
-<pre class="art" id="art4" aria-hidden="true"></pre>
 <h2 class="rv">contact <em>me</em></h2>
 <p class="rv">say hello — about systems, security, or a project worth building.</p>
 <div class="links rv">
@@ -154,41 +148,26 @@ footer{margin-top:4rem;font-family:var(--mono);font-size:.7rem;color:var(--dim);
 </main>
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-/* ---------- ascii art ---------- */
 const F={N:["█   █","██  █","█ █ █","█  ██","█   █"],A:[" ███ ","█   █","█████","█   █","█   █"],D:["████ ","█   █","█   █","█   █","████ "]};
 $('#name').textContent=[0,1,2,3,4].map(r=>[...'NANDANA'].map(c=>F[c][r]).join(' ')).join('\n');
-const C=(s,w)=>{const l=Math.floor((w-s.length)/2);return ' '.repeat(l)+s+' '.repeat(w-s.length-l)};
-const P=(s,w)=>s.padEnd(w);
-const box=(rows,w)=>['┌'+'─'.repeat(w)+'┐',...rows.map(r=>r==='-'?'├'+'─'.repeat(w)+'┤':'│'+r+'│'),'└'+'─'.repeat(w)+'┘'].join('\n');
-let w=30;
-$('#art2').textContent=box([P(' $ whoami',w),P(' > nandana',w),P(' $ cat interests.txt',w),P(' > unikernels',w),P(' > security  > c  > linux',w),P(' $ _',w)],w)+
-'\n  ╱'+'─'.repeat(w-2)+'╲\n ╱'+'_'.repeat(w)+'╲\n╱'+'_'.repeat(w+2)+'╲';
-w=26;
-$('#art3').textContent=box([C('application',w),'-',C('library OS · one space',w),'-',C('░░░ bare metal ░░░',w)],w)+
-'\n'+C('┴  ┴  ┴  ┴  ┴  ┴  ┴  ┴',w+2);
-w=28;
-const env=[];
-for(let i=0;i<4;i++){const p=1+2*i,f=i===3?'_':' ';env.push(' '.repeat(p)+'╲'+f.repeat(w-2*p-2)+'╱'+' '.repeat(p))}
-$('#art4').textContent=box([...env,C('( say hi )',w)],w);
 /* ---------- ascii background that morphs per section ---------- */
-const cv=$('#bg'),ctx=cv.getContext('2d'),sets=[' . .',' :.-',' +*#',' ~-='],secs=$$('.sec'),cw=11,ch=18;
+const cv=$('#bg'),ctx=cv.getContext('2d'),sets=['01 . .','01:.-','01+*#','01~-='],secs=$$('.sec'),cw=11,ch=18;
 let W,H,cols,rows;
 const hash=(x,y,s)=>{let h=Math.imul(x,374761393)^Math.imul(y,668265263)^Math.imul(s+1,2246822519);h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967296};
 function size(){const d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);cols=Math.ceil(W/cw);rows=Math.ceil(H/ch);ctx.font='12px ui-monospace,Menlo,Consolas,monospace';ctx.textBaseline='top'}
 function prog(){const y=scrollY+innerHeight/2,t=secs.map(s=>s.offsetTop);let i=0;while(i<3&&y>=t[i+1])i++;if(i>=3)return 3;const f=(y-t[i])/(t[i+1]-t[i]);return i+f*f*(3-2*f)}
 function draw(t=0){const f=prog(),a=Math.min(3,Math.floor(f)),b=Math.min(3,a+1),fr=f-a;ctx.clearRect(0,0,W,H);ctx.fillStyle='#fff';
 for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){const set=sets[hash(x,y,7)<fr?b:a],c=set[(hash(x,y,1)*set.length)|0];if(c===' ')continue;
-ctx.globalAlpha=.05+.13*(.5+.5*Math.sin(x*.18+y*.23+t/1400+f*3));ctx.fillText(c,x*cw,y*ch)}ctx.globalAlpha=1}
+const phase=hash(x,y,2)*Math.PI*2,ambient=.01+.06*(.5+.5*Math.sin(t/1500+phase));
+const spark=hash(x,y,3)>.985,period=1800+hash(x,y,4)*2200;
+const pulse=Math.max(0,Math.sin(t/period*Math.PI*2+hash(x,y,5)*Math.PI*2));
+ctx.globalAlpha=Math.min(.7,ambient+(spark?Math.pow(pulse,10)*.7:0));ctx.fillText(c,x*cw,y*ch)}ctx.globalAlpha=1}
 size();draw();
 const still=matchMedia('(prefers-reduced-motion:reduce)').matches;let last=0;
 function loop(t){if(t-last>66){draw(t);last=t}requestAnimationFrame(loop)}
 if(!still)requestAnimationFrame(loop);
 addEventListener('resize',()=>{size();draw()});
-/* ---------- scroll fx: art fades/drifts between sections ---------- */
-const arts=$$('.art');
-function fx(){const vh=innerHeight;arts.forEach(a=>{const r=a.getBoundingClientRect(),p=Math.max(-1,Math.min(1,(r.top+r.height/2-vh/2)/(vh*.75)));
-a.style.opacity=Math.max(0,1-Math.abs(p)*1.15);a.style.transform=`translateY(${p*36}px)`})}
-addEventListener('scroll',()=>{fx();if(still)draw()},{passive:true});fx();
+addEventListener('scroll',()=>{if(still)draw()},{passive:true});
 /* reveal + nav */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
 $$('.rv').forEach(e=>io.observe(e));
