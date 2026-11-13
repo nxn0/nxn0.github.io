@@ -158,8 +158,8 @@ function size(){const d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeig
 function prog(){const y=scrollY+innerHeight/2,t=secs.map(s=>s.offsetTop);let i=0;while(i<3&&y>=t[i+1])i++;if(i>=3)return 3;const f=(y-t[i])/(t[i+1]-t[i]);return i+f*f*(3-2*f)}
 function draw(t=0){const f=prog(),a=Math.min(3,Math.floor(f)),b=Math.min(3,a+1),fr=f-a;ctx.clearRect(0,0,W,H);ctx.fillStyle='#fff';
 for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){const set=sets[hash(x,y,7)<fr?b:a],c=set[(hash(x,y,1)*set.length)|0];if(c===' ')continue;
-const phase=hash(x,y,2)*Math.PI*2,ambient=.01+.06*(.5+.5*Math.sin(t/1500+phase));
-const spark=hash(x,y,3)>.985,period=1800+hash(x,y,4)*2200;
+const phase=hash(x,y,2)*Math.PI*2,ambient=.01+.06*(.5+.5*Math.sin(t/938+phase));
+const spark=hash(x,y,3)>.985,period=(1800+hash(x,y,4)*2200)*1.1;
 const pulse=Math.max(0,Math.sin(t/period*Math.PI*2+hash(x,y,5)*Math.PI*2));
 ctx.globalAlpha=Math.min(.7,ambient+(spark?Math.pow(pulse,10)*.7:0));ctx.fillText(c,x*cw,y*ch)}ctx.globalAlpha=1}
 size();draw();
